@@ -21,9 +21,15 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          set -e  
+          
+          sudo mkdir -p /var/www/gmtkgame
+          
+          sudo chown -R $USER:$USER /var/www/gmtkgame
+          
           git config --global --add safe.directory /var/www/gmtkgame
           
-          cd /var/www/gmtkgame/
+          cd /var/www/gmtkgame
           
           if [ ! -d ".git" ]; then
             git init
@@ -34,9 +40,9 @@ jobs:
           
           git fetch origin main
           git reset --hard origin/main
-        
-          sudo systemctl restart nginx || true
-          echo "nginx exit code: $?"
-        
-          sudo systemctl restart cloudflared || true
-          echo "cloudflare exit code: $?"
+          
+          sudo systemctl restart nginx
+          echo "nginx restarted successfully"
+          
+          sudo systemctl restart cloudflared
+          echo "cloudflared restarted successfully"
