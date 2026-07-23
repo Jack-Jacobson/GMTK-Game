@@ -27,25 +27,34 @@
   cursor: pointer;
 }
 .overlay * {
-    position: relative;
-    left: 50%;
-    top: 50%;
-    font-size: xx-large;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  font-size: xx-large;
+    
+}
+.parent{
+  width: 500px;
+  height: 500px;
+  margin-left:auto;
+  margin-right:auto;
 }
 </style>
 </head>
 <body>
-<div id="overlayLose" class="overlay">
-    <div>Game Over</div>
-    <button id="button">Restart</button>
-</div>
-<div id="overlayWin" class="overlay">
-    <div>You Win</div>
+  <div id="overlayLose" class="overlay">
+      <div>Game Over</div>
+      <button id="button">Restart</button>
+  </div>
+  <div id="overlayWin" class="overlay">
+      <div>You Win</div>
+  </div>
+  <div class="parent">
+    <input type="checkbox" id="mode">Mark as mine</input>
+    <div class="container" id="grid"></div>
+    <script src="Minesweepers_minigame.js"></script>
 </div>
 
-<input type="checkbox" id="mode">Mark as mine</input>
-<div class="container" id="grid"></div>
-<script src="Minesweepers_minigame.js"></script>
 
 </body>
 </html>

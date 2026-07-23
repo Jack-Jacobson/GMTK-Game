@@ -7,19 +7,24 @@ const directions = [
     [0, -1], [0, 1],
     [1, -1], [1, 0], [1, 1],
 ]
-let rows = 10;
-let colums = 10;
+let rows = 5;
+let colums = 5;
 grid.style.gridTemplateRows = `repeat(${rows},1fr)`;
 grid.style.gridTemplateColumns = `repeat(${colums},1fr)`;
 
-let MineCount = 20;
+let MineCount = 1;
 let AmountOfFieldsUncovered = 0;
 let data = new Array();
+let vis = new Array();
 
 function reset(){
     grid.textContent = '';
     AmountOfFieldsUncovered = 0;
     data = new Array();
+    vis = new Array();
+    for(let i=0; i<colums; i++){
+        vis.push(Array(rows).fill(0));
+    }
 
 
     for(let i=0; i<colums; i++){
@@ -34,8 +39,8 @@ function reset(){
     for(let i=0; i<MineCount; i++){
         let x = Math.floor(Math.random()*colums);
         let y = Math.floor(Math.random()*rows);
-
-        data[x][y]=-1;
+        if(data[x][y]==-1) i--;
+        else data[x][y]=-1;
     }
     for(let i=0; i<colums; i++){
         for(let j=0; j<rows; j++){
@@ -60,10 +65,7 @@ console.log(data);
 
 function BFS(startx, starty, target){
     let queue = Array([startx,starty]);
-    let vis = Array();
-    for(let i=0; i<colums; i++){
-        vis.push(Array(rows).fill(0));
-    }
+    
     vis[startx][starty]=1;
     while(queue.length>0){
         let x = queue[0][0];
@@ -82,6 +84,7 @@ function BFS(startx, starty, target){
                     let obj = document.getElementById(`${x2} ${y2}`);
                     obj.textContent = data[x2][y2];
                     obj.style.backgroundColor = 'green';
+                    AmountOfFieldsUncovered++;
 
                     if(data[x2][y2]==target){
                         queue.push([x2,y2]);
@@ -113,13 +116,16 @@ grid.addEventListener('click', function(event) {
         if(data[x][y]==-1){
             event.target.style.backgroundColor = 'red';
             overlayLose.style.display = 'block';
-        } else{
+        } else if(vis[x][y]==0){
             event.target.style.backgroundColor = 'green';
+            AmountOfFieldsUncovered++;
+            vis[x][y]=1;
             if(data[x][y]==0){
                 BFS(x,y,0);
             }
         }
     }
+    console.log(AmountOfFieldsUncovered);
     if(AmountOfFieldsUncovered == colums*rows-MineCount){
         overlayWin.style.display = 'block';
     }
