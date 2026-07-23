@@ -1,118 +1,92 @@
-class MemoryPuzzle {
-    constructor(sequenceLength = 5, displayTime = 10000) {
-        this.colours = [
-            "RED",
-            "BLUE",
-            "GREEN",
-            "YELLOW",
-            "BLACK",
-            "WHITE",
-            "PURPLE",
-            "ORANGE"
-        ];
+const colours = [
+    "RED",
+    "BLUE",
+    "GREEN",
+    "YELLOW",
+    "BLACK",
+    "WHITE",
+    "PURPLE",
+    "ORANGE"
+];
 
-        this.sequenceLength = sequenceLength;
-        this.displayTime = displayTime;
+let sequence = [];
+let playerAnswer = [];
 
-        this.sequence = [];
-        this.playerAnswer = [];
+const sequenceLength = 5;
 
-        this.isShowing = false;
-        this.completed = false;
 
-        this.generateSequence();
+// Generate random colour sequence
+function generateSequence() {
+    for (let i = 0; i < sequenceLength; i++) {
+        let randomColour =
+            colours[Math.floor(Math.random() * colours.length)];
+
+        sequence.push(randomColour);
     }
+}
 
 
-    // Generate random colour sequence
-    generateSequence() {
-        this.sequence = [];
+// Show sequence for 10 seconds
+function showSequence() {
 
-        for (let i = 0; i < this.sequenceLength; i++) {
-            const randomColour =
-                this.colours[Math.floor(Math.random() * this.colours.length)];
+    const display = document.getElementById("sequence");
 
-            this.sequence.push(randomColour);
-        }
-    }
+    sequence.forEach(colour => {
 
+        let box = document.createElement("div");
 
-    // Display pattern for 10 seconds
-    showPattern() {
-        this.isShowing = true;
+        box.className = "colour " + colour.toLowerCase();
 
-        console.log("MEMORIZE THE COLOURS:");
-        console.log(this.sequence);
+        display.appendChild(box);
 
-        setTimeout(() => {
-            this.hidePattern();
-        }, this.displayTime);
-    }
+    });
 
 
-    hidePattern() {
-        this.isShowing = false;
+    setTimeout(() => {
 
-        console.log("Pattern hidden. Repeat the sequence.");
-    }
+        display.innerHTML = "";
 
+        document.getElementById("message").innerText =
+            "Repeat the sequence!";
 
-    // Player selects a colour
-    input(color) {
-
-        if (this.isShowing) {
-            return {
-                solved: false,
-                message: "Wait until the pattern disappears!"
-            };
-        }
+    }, 10000);
+}
 
 
-        this.playerAnswer.push(color);
+// Check player's colour choice
+document.querySelectorAll(".colour").forEach(button => {
 
-        const index = this.playerAnswer.length - 1;
+    button.addEventListener("click", () => {
+
+        let clickedColour = button.dataset.color;
+
+        playerAnswer.push(clickedColour);
+
+        let index = playerAnswer.length - 1;
 
 
         // Wrong colour
-        if (this.playerAnswer[index] !== this.sequence[index]) {
-            return {
-                solved: false,
-                failed: true,
-                message: "Wrong colour!"
-            };
+        if (playerAnswer[index] !== sequence[index]) {
+
+            document.getElementById("message").innerText =
+                "Puzzle failed!";
+
+            return;
         }
 
 
-        // Completed
-        if (this.playerAnswer.length === this.sequence.length) {
-            this.completed = true;
+        // Completed sequence
+        if (playerAnswer.length === sequence.length) {
 
-            return {
-                solved: true,
-                failed: false,
-                message: "Memory puzzle completed!"
-            };
+            document.getElementById("message").innerText =
+                "Puzzle solved!";
+
         }
 
+    });
 
-        return {
-            solved: false,
-            failed: false,
-            message: "Correct!"
-        };
-    }
+});
 
 
-    reset() {
-        this.sequence = [];
-        this.playerAnswer = [];
-        this.completed = false;
-
-        this.generateSequence();
-    }
-
-
-    isSolved() {
-        return this.completed;
-    }
-}
+generateSequence();
+showSequence();

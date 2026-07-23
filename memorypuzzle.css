@@ -1,0 +1,56 @@
+body {
+    background: #111;
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+
+#sequence {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px;
+}
+
+
+.colour {
+    width: 60px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+}
+
+
+.red {
+    background: red;
+}
+
+.blue {
+    background: rgba(15, 15, 147, 0.916)(11, 11, 176, 0.916)(0, 0, 255, 0.916);
+}
+
+.green {
+    background: rgb(11, 84, 11);
+}
+
+.yellow {
+    background: yellow;
+}
+
+.black {
+    background: black;
+}
+
+.white {
+    background: white;
+}
+
+.purple {
+    background: rgb(124, 3, 172)6, 9, 176, 0.82)6, 9, 176);
+}
+
+.orange {
+    background: orange;
+}
+
