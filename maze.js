@@ -1,9 +1,9 @@
 /* PHYSICS VARIABLES ADJUST AS NECESSARY */
 const PHYSICS = {
-    gravityStrength: 1.2,      //How fast the ball falls
+    gravityStrength: 0.7,     //How fast the ball falls
     rotationSpeed: 0.045,      //How fast A/D spins the maze (radians per frame)
-    ballBounciness: 0.3,       //Restitution (0 = lead weight, 1 = much bounce)
-    ballFriction: 0.001,       //Surface friction
+    ballBounciness: 0.7,       //Restitution (0 = lead weight, 1 = much bounce)
+    ballFriction: 0.01,       //Surface friction
     ballFrictionAir: 0.02,     //Air resistance
     ballDensity: 0.05,         //Mass ratio
     wallThickness: 40          //Match this to grid cell size
