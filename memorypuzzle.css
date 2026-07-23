@@ -3,52 +3,187 @@ body {
     color: white;
     text-align: center;
     font-family: Arial, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 100vh;
 }
 
 
-#sequence {
+/* Start + Game containers */
+
+#startScreen,
+#gameScreen {
+    background: #1b1b1b;
+    padding: 40px;
+    width: 600px;
+}
+
+
+#gameScreen {
+    display: none;
+}
+
+
+h1 {
+    margin-bottom: 10px;
+}
+
+
+#sequence,
+#answer,
+#buttons {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 15px;
-    margin: 30px;
+    margin: 20px;
 }
 
+
+/* Colour blocks */
 
 .colour {
     width: 60px;
     height: 60px;
-    border: none;
     cursor: pointer;
 }
 
 
+.colour:hover {
+    transform: scale(1.1);
+}
+
+
+/* Colours */
+
 .red {
-    background: red;
+    background-color: red;
 }
 
 .blue {
-    background: rgba(15, 15, 147, 0.916)(11, 11, 176, 0.916)(0, 0, 255, 0.916);
+    background-color: blue;
 }
 
 .green {
-    background: rgb(11, 84, 11);
+    background-color: green;
 }
 
 .yellow {
-    background: yellow;
+    background-color: yellow;
 }
 
 .black {
-    background: black;
+    background-color: black;
 }
 
 .white {
-    background: white;
+    background-color: white;
 }
 
 .purple {
-    background: purple;
+    background-color: purple;
 }
+
 .orange {
-    background: orange;
+    background-color: orange;
+}
+
+
+
+/* Control buttons */
+
+#start,
+#erase,
+#enter,
+#restart,
+#return {
+
+    padding: 12px 25px;
+
+    margin: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    background-color: #333;
+
+    color: white;
+}
+
+
+
+#start:hover,
+#erase:hover,
+#enter:hover,
+#restart:hover,
+#return:hover {
+
+    transform: scale(1.05);
+
+}
+
+
+/* Different button colours */
+
+#start {
+    background-color: #555}
+
+
+#erase {
+    background-color: #555;
+}
+
+
+#restart {
+    background-color: #555;
+}
+
+
+#enter {
+    background-color: #555;
+}
+
+
+
+button:disabled {
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+}
+
+
+
+#message {
+
+    font-size: 20px;
+
+    margin: 15px;
+
+}
+
+
+#timer {
+
+    font-size: 24px;
+
+    color: #ff4444;
+
+}
+
+
+#round {
+
+    font-size: 22px;
+
 }
