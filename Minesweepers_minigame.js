@@ -7,12 +7,12 @@ const directions = [
     [0, -1], [0, 1],
     [1, -1], [1, 0], [1, 1],
 ]
-let rows = 5;
-let colums = 5;
+let rows = 10;
+let colums = 10;
 grid.style.gridTemplateRows = `repeat(${rows},1fr)`;
 grid.style.gridTemplateColumns = `repeat(${colums},1fr)`;
 
-let MineCount = 1;
+let MineCount = 20;
 let AmountOfFieldsUncovered = 0;
 let data = new Array();
 let vis = new Array();
