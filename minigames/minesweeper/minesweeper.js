@@ -1,12 +1,15 @@
 const grid = document.getElementById("grid");
 const overlayLose = document.getElementById("overlayLose");
 const overlayWin = document.getElementById("overlayWin");
-const button = document.getElementById("button");
+const buttonLose = document.getElementById("buttonLose");
+const buttonWin = document.getElementById("buttonWin");
+
 const directions = [
     [-1, -1], [-1, 0], [-1, 1],
-    [0, -1], [0, 1],
-    [1, -1], [1, 0], [1, 1],
-]
+    [0, -1],           [0, 1],
+    [1, -1],  [1, 0],  [1, 1],
+];
+
 let rows = 10;
 let colums = 10;
 grid.style.gridTemplateRows = `repeat(${rows},1fr)`;
@@ -22,37 +25,42 @@ function reset(){
     AmountOfFieldsUncovered = 0;
     data = new Array();
     vis = new Array();
+    document.getElementById("mode").checked = false;
+
     for(let i=0; i<colums; i++){
         vis.push(Array(rows).fill(0));
     }
 
-
     for(let i=0; i<colums; i++){
         for(let j=0; j<rows; j++){
             let item = document.createElement('div');
-            item.textContent="O"; //`${i} ${j}`
+            item.textContent = "O"; 
             item.id = `${i} ${j}`;
+            // Apply theme colors to fresh board
+            item.style.backgroundColor = 'var(--maze-bg)';
+            item.style.color = 'var(--text-dim)';
             grid.appendChild(item);
         }
         data.push(new Array(rows).fill(0));
     }
+
     for(let i=0; i<MineCount; i++){
         let x = Math.floor(Math.random()*colums);
         let y = Math.floor(Math.random()*rows);
-        if(data[x][y]==-1) i--;
-        else data[x][y]=-1;
+        if(data[x][y] == -1) i--;
+        else data[x][y] = -1;
     }
+
     for(let i=0; i<colums; i++){
         for(let j=0; j<rows; j++){
-            if(data[i][j]==-1){
+            if(data[i][j] == -1){
                 for(let q=0; q<8; q++){
                     let dx = directions[q][0];
-                    let dy = directions[q][1]
+                    let dy = directions[q][1];
                     let x = i+dx;
                     let y = j+dy;
-                    //console.log(x,y);
                     if(0 <= x && x < colums && 0 <= y && y < rows){
-                        if(data[x][y]!=-1) data[x][y]+=1;
+                        if(data[x][y] != -1) data[x][y] += 1;
                     }
                 }
             }
@@ -61,32 +69,35 @@ function reset(){
 }
 reset();
 
-console.log(data);
-
 function BFS(startx, starty, target){
     let queue = Array([startx,starty]);
+    vis[startx][starty] = 1;
     
-    vis[startx][starty]=1;
-    while(queue.length>0){
+    while(queue.length > 0){
         let x = queue[0][0];
         let y = queue[0][1];
         queue.shift();
+        
         for(let q=0; q<8; q++){
             let dx = directions[q][0];
-            let dy = directions[q][1]
+            let dy = directions[q][1];
             let x2 = x+dx;
             let y2 = y+dy;
-            //console.log(x,y);
+            
             if(0 <= x2 && x2 < colums && 0 <= y2 && y2 < rows){
-                if(vis[x2][y2]==0){
-                    vis[x2][y2]=1;
-                    
+                if(vis[x2][y2] == 0){
+                    vis[x2][y2] = 1;
                     let obj = document.getElementById(`${x2} ${y2}`);
-                    obj.textContent = data[x2][y2];
-                    obj.style.backgroundColor = 'green';
+                    
+                    // Prevent printing "0" if preferred, or leave as is
+                    obj.textContent = data[x2][y2] === 0 ? "" : data[x2][y2];
+                    
+                    // Safe unlocked tile styling
+                    obj.style.backgroundColor = 'var(--bg)';
+                    obj.style.color = 'var(--goal)';
                     AmountOfFieldsUncovered++;
 
-                    if(data[x2][y2]==target){
+                    if(data[x2][y2] == target){
                         queue.push([x2,y2]);
                     }
                 }
@@ -95,44 +106,62 @@ function BFS(startx, starty, target){
     }
 }
 
-
-
 grid.addEventListener('click', function(event) {
     const mode = document.getElementById("mode").checked;
+    
+    if(event.target.id === "grid") return; // Prevent clicking gaps
 
     let x = Number(event.target.id.split(" ")[0]);
     let y = Number(event.target.id.split(" ")[1]);
-    //console.log(x,y,event.target.id);
+
     if(mode){
-        if(vis[x][y]==0){
+        if(vis[x][y] == 0){
             if(event.target.textContent == "X"){
                 event.target.textContent = "O";
-                event.target.style.backgroundColor = '#f1f1f1';
-            } else{
+                // Revert to hidden styling
+                event.target.style.backgroundColor = 'var(--maze-bg)';
+                event.target.style.color = 'var(--text-dim)';
+            } else {
                 event.target.textContent = "X";
-                event.target.style.backgroundColor = 'orange';
+                // Flagged styling
+                event.target.style.backgroundColor = 'var(--text-dim)';
+                event.target.style.color = 'var(--bg)';
             }
         }
     } else if(event.target.textContent == "O"){
-        event.target.textContent = data[x][y];
-        if(data[x][y]==-1){
-            event.target.style.backgroundColor = 'red';
+        if(data[x][y] == -1){
+            event.target.textContent = "!";
+            // Mine hit styling
+            event.target.style.backgroundColor = 'var(--ball)';
+            event.target.style.color = 'var(--bg)';
             overlayLose.style.display = 'block';
-        } else if(vis[x][y]==0){
-            event.target.style.backgroundColor = 'green';
+        } else if(vis[x][y] == 0){
+            event.target.textContent = data[x][y] === 0 ? "" : data[x][y];
+            
+            // Safe clicked styling
+            event.target.style.backgroundColor = 'var(--bg)';
+            event.target.style.color = 'var(--goal)';
+            
             AmountOfFieldsUncovered++;
-            vis[x][y]=1;
-            if(data[x][y]==0){
+            vis[x][y] = 1;
+            if(data[x][y] == 0){
                 BFS(x,y,0);
             }
         }
     }
-    console.log(AmountOfFieldsUncovered);
+
     if(AmountOfFieldsUncovered == colums*rows-MineCount){
         overlayWin.style.display = 'block';
     }
-})
-button.addEventListener('click', () => {
+});
+
+// Restart buttons
+buttonLose.addEventListener('click', () => {
     reset();
     overlayLose.style.display = 'none';
-})
+});
+
+buttonWin.addEventListener('click', () => {
+    reset();
+    overlayWin.style.display = 'none';
+});
