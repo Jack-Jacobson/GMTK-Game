@@ -104,12 +104,14 @@ grid.addEventListener('click', function(event) {
     let y = Number(event.target.id.split(" ")[1]);
     //console.log(x,y,event.target.id);
     if(mode){
-        if(event.target.textContent == "X"){
-            event.target.textContent = "O";
-            event.target.style.backgroundColor = '#f1f1f1';
-        } else{
-            event.target.textContent = "X";
-            event.target.style.backgroundColor = 'orange';
+        if(vis[x][y]==0){
+            if(event.target.textContent == "X"){
+                event.target.textContent = "O";
+                event.target.style.backgroundColor = '#f1f1f1';
+            } else{
+                event.target.textContent = "X";
+                event.target.style.backgroundColor = 'orange';
+            }
         }
     } else{
         event.target.textContent = data[x][y];
