@@ -17,8 +17,9 @@ const Player = {
     width: 50,
     height: 50,
 }
-const objects = [
-    {x: 200, y: 200, width: 10, height: 100},
+const CollisionObjects = [
+    {x: 200, y: 200, width: 50, height: 400},
+    {x: 200, y: 200, width: 400, height: 50},
 ];
 let inputs = {
     left: false,
@@ -27,7 +28,7 @@ let inputs = {
     down: false,
 };
 
-const cellSize = 40;
+const cellSize = 50;
 
 function drawGrid() {
     ctx.beginPath();
@@ -53,7 +54,7 @@ function drawGrid() {
 function draw() {
     drawGrid();
     ctx.fillStyle = 'black';
-    objects.forEach(object => {
+    CollisionObjects.forEach(object => {
         ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
     });
 
@@ -102,18 +103,18 @@ function updateCamera(){
 }
 
 function checkCollisions(){
-    objects.forEach(object => {
+    CollisionObjects.forEach(object => {
         //console.log(Player.x, Player.y, platform.x, platform.y);
-        if((Player.y + Player.height > object.y && Player.y + Player.height < object.y+object.height) && (Player.x+Player.width > object.x && Player.x < object.x + object.width)) {
+        if((Player.y + Player.height > object.y && Player.y + Player.height <= object.y + Player.speed) && (Player.x + Player.width > object.x && Player.x < object.x + object.width)) {
             Player.y -= Player.speed * inputs.down;
         } 
-        else if((Player.y > object.y && Player.y < object.y+object.height) && (Player.x+Player.width > object.x && Player.x < object.x + object.width)) {
+        else if((Player.y >= object.y + object.height - Player.speed && Player.y < object.y + object.height) && (Player.x + Player.width > object.x && Player.x < object.x + object.width)) {
             Player.y += Player.speed * inputs.up;
         }
-        if((Player.y + Player.height > object.y && Player.y < object.y+object.height) && (Player.x + Player.width > object.x && Player.x < object.x)) {
+        if((Player.y + Player.height > object.y && Player.y < object.y + object.height) && (Player.x + Player.width > object.x && Player.x + Player.width <= object.x + Player.speed)) {
             Player.x -= Player.speed * inputs.right;
         } 
-        else if((Player.y + Player.height > object.y && Player.y < object.y+object.height) && (Player.x < object.x+object.width && Player.x+Player.width > object.x+object.width)) {
+        else if((Player.y + Player.height > object.y && Player.y < object.y + object.height) && (Player.x >= object.x + object.width - Player.speed && Player.x < object.x + object.width)) {
             Player.x += Player.speed * inputs.left;
         }
         //if(Player.x + Player.width < platform.x) Player.x = platform.x-Player.width;
