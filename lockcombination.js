@@ -1,96 +1,120 @@
 const puzzles = [
 
-{
-    difficulty:"Easy",
+    // ROUND 1 - EASY
+    {
+        difficulty: "Easy",
 
-    clues:[
-        "The first digit is 2.",
-        "The second digit is 3 more than the first.",
-        "The third digit is the same as the second.",
-        "The fourth digit is half of the second plus 1."
-    ],
+        clues: [
+            "The first digit is 2.",
+            "The second digit is 3 more than the first.",
+            "The third digit is the same as the second.",
+            "The fourth digit is half of the second plus 1."
+        ],
 
-    answer:"2553"
-},
-
-
-{
-    difficulty:"Medium",
-
-    clues:[
-        "The first digit is 4.",
-        "The second digit is double the first minus 2.",
-        "The third digit is half of the first.",
-        "The fourth digit is the first digit + the third digit."
-    ],
-
-    answer:"4626"
-},
+        answer: "2553"
+    },
 
 
-{
-    difficulty:"Hard",
+    // ROUND 2 - MEDIUM
+    {
+        difficulty: "Medium",
 
-    clues:[
-        "The first digit is 6.",
-        "The second digit is 2 less than the first.",
-        "The third digit is half of the first.",
-        "The fourth digit is the first digit minus the third digit."
-    ],
+        clues: [
+            "The first digit is 4.",
+            "The second digit is 2 more than the first.",
+            "The third digit is half of the first.",
+            "The fourth digit is the first digit + the third digit."
+        ],
 
-    answer:"6423"
-}
+        answer: "4626"
+    },
+
+
+    // ROUND 3 - HARD
+    {
+        difficulty: "Hard",
+
+        clues: [
+            "The first digit is 6.",
+            "The second digit is 2 less than the first.",
+            "The third digit is half of the first.",
+            "The fourth digit is the first digit - the third digit."
+        ],
+
+        answer: "6423"
+    }
 
 ];
 
-let round = 1;
-let maxRounds = 3;
-let timeLeft = 120;
-let timer;
+
+// GAME VARIABLES
+
+let currentRound = 0;
 
 let currentPuzzle;
 
 let playerCode = "";
 
+let timer;
 
+let timeLeft = 60;
+
+const totalRounds = 3;
+
+
+
+// LOAD PUZZLE
 
 function loadPuzzle(){
 
 
-    currentPuzzle =
-        puzzles[Math.floor(Math.random()*puzzles.length)];
+    currentPuzzle = puzzles[currentRound];
 
 
-    playerCode="";
+    playerCode = "";
 
 
-    displayClues();
+    document.getElementById("round").innerText =
+    `ROUND ${currentRound + 1}/${totalRounds} - ${currentPuzzle.difficulty}`;
+
+
+    document.getElementById("message").innerText =
+    "Solve the clues to unlock the lock.";
+
+
+    showClues();
+
 
     updateCode();
 
+
+    startTimer();
 
 }
 
 
 
-function displayClues(){
+// SHOW CLUES
+
+function showClues(){
 
 
-    let clueBox =
-        document.getElementById("clues");
+    const clueBox =
+    document.getElementById("clues");
 
 
-    clueBox.innerHTML="";
+    clueBox.innerHTML = "";
 
 
-    currentPuzzle.clues.forEach(clue=>{
+    currentPuzzle.clues.forEach(clue => {
 
 
-        let p=document.createElement("p");
+        let text = document.createElement("p");
 
-        p.innerText="• "+clue;
+        text.innerText = "• " + clue;
 
-        clueBox.appendChild(p);
+
+        clueBox.appendChild(text);
 
 
     });
@@ -100,47 +124,112 @@ function displayClues(){
 
 
 
+// TIMER
+
+function startTimer(){
+
+    clearInterval(timer);
+
+    timeLeft = 60;
+
+
+    updateTimer();
+
+
+    timer = setInterval(() => {
+
+        timeLeft--;
+
+        updateTimer();
+
+
+        if(timeLeft <= 0){
+
+            clearInterval(timer);
+
+            document.getElementById("message").innerText =
+            "TIME'S UP ";
+
+            disableButtons();
+
+        }
+
+
+    },1000);
+
+}
+
+
+
+function updateTimer(){
+
+    let minutes = Math.floor(timeLeft / 60);
+
+    let seconds = timeLeft % 60;
+
+
+    if(seconds < 10){
+        seconds = "0" + seconds;
+    }
+
+
+    document.getElementById("timer").innerText =
+    `TIME LEFT: ${minutes}:${seconds}`;
+
+}
+
+
+// UPDATE CODE DISPLAY
+
 function updateCode(){
 
 
-    let display="";
+    let display = "";
 
 
-    for(let i=0;i<4;i++){
+    for(let i = 0; i < 4; i++){
+
 
         if(playerCode[i]){
 
-            display+=playerCode[i]+" ";
+            display += playerCode[i] + " ";
 
         }
 
         else{
 
-            display+="_ ";
+            display += "_ ";
 
         }
 
     }
 
 
-    document.getElementById("code").innerText=display;
+    document.getElementById("code").innerText =
+    display;
 
 
 }
 
 
 
-document.querySelectorAll(".number").forEach(button=>{
+// NUMBER BUTTONS
+
+document.querySelectorAll(".number")
+.forEach(button => {
 
 
-    button.addEventListener("click",()=>{
+    button.addEventListener("click", () => {
 
 
-        if(playerCode.length<4){
+        if(playerCode.length < 4){
+
 
             playerCode += button.innerText;
 
+
             updateCode();
+
 
         }
 
@@ -152,11 +241,14 @@ document.querySelectorAll(".number").forEach(button=>{
 
 
 
+// CLEAR BUTTON
+
 document.getElementById("clear")
-.addEventListener("click",()=>{
+.addEventListener("click", () => {
 
 
-    playerCode="";
+    playerCode = "";
+
 
     updateCode();
 
@@ -165,24 +257,75 @@ document.getElementById("clear")
 
 
 
+// ENTER BUTTON
+
 document.getElementById("enter")
-.addEventListener("click",()=>{
+.addEventListener("click", () => {
+
+
+    if(playerCode.length !== 4){
+
+
+        document.getElementById("message").innerText =
+        "Enter a 4 digit code!";
+
+
+        return;
+
+    }
+
 
 
     if(playerCode === currentPuzzle.answer){
 
 
-        document.getElementById("message").innerText =
-        "PUZZLE SOLVED ";
+        clearInterval(timer);
+
+
+
+        if(currentRound === totalRounds - 1){
+
+
+            document.getElementById("message").innerText =
+            "LOCK DISARMED";
+
+
+            disableButtons();
+
+
+        }
+
+
+        else{
+
+
+            document.getElementById("message").innerText =
+            "LOCK OPENED! NEXT SECURITY SYSTEM... ";
+
+
+            setTimeout(() => {
+
+
+                currentRound++;
+
+
+                loadPuzzle();
+
+
+            },1500);
+
+
+        }
 
 
     }
+
 
     else{
 
 
         document.getElementById("message").innerText =
-        "INCORRECT CODE TRY AGAIN";
+        "INCORRECT CODE ";
 
 
     }
@@ -192,25 +335,38 @@ document.getElementById("enter")
 
 
 
+// RESTART ROUND
+
 document.getElementById("restart")
-.addEventListener("click",()=>{
+.addEventListener("click", () => {
 
 
     loadPuzzle();
-
-
-    document.getElementById("message").innerText =
-    "Solve the clues to unlock the safe.";
 
 
 });
 
 
 
+// DISABLE BUTTONS
+
+function disableButtons(){
+
+
+    document.querySelectorAll("button")
+    .forEach(button => {
+
+
+        button.disabled = true;
+
+
+    });
+
+
+}
+
+
+
+// START GAME
+
 loadPuzzle();
-
-
-
-
-
-
