@@ -1,7 +1,7 @@
 /* PHYSICS VARIABLES ADJUST AS NECESSARY */
 const PHYSICS = {
     gravityStrength: 0.7,     //How fast the ball falls
-    rotationSpeed: 0.038,      //How fast A/D spins the maze (radians per frame)
+    rotationSpeed: 0.03,      //How fast A/D spins the maze (radians per frame)
     ballBounciness: 0.7,       //Restitution (0 = lead weight, 1 = much bounce)
     ballFriction: 0.01,       //Surface friction
     ballFrictionAir: 0.02,     //Air resistance
