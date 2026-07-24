@@ -16,11 +16,26 @@ const Player = {
     speed: 2,
     width: 50,
     height: 50,
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg",
 }
+
+let img = new Image();
+img.src = Player.img;
+Player.img = img;
+delete(img);
+
+
 const CollisionObjects = [
-    {x: 200, y: 200, width: 50, height: 400},
-    {x: 200, y: 200, width: 400, height: 50},
+    {x: 200, y: 200, width: 50, height: 400, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
+    {x: 200, y: 200, width: 400, height: 50, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
 ];
+
+CollisionObjects.forEach(object => {
+    let img = new Image();
+    img.src = object.img;
+    object.img = img;
+});
+
 let inputs = {
     left: false,
     right: false,
@@ -55,14 +70,18 @@ function draw() {
     drawGrid();
     ctx.fillStyle = 'black';
     CollisionObjects.forEach(object => {
-        ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
+        //ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
+        ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
     });
 
 
 
 
     ctx.fillStyle = 'blue';
+    
     ctx.fillRect(Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
+    ctx.drawImage(Player.img,Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
+    
 }
 
 function clear() {
