@@ -32,7 +32,7 @@ const CollisionObjects = [
     {x: 200, y: 200, width: 400, height: 50, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
 ];
 const InteractableObjects = [
-    {x: 275, y: 225, width: 25, height: 25, url: '../minesweepers/Minesweepers_minigame.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 275, y: 225, width: 25, height: 25, url: '../minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
     {x: 375, y: 225, width: 25, height: 25, url: '../maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 ];
 

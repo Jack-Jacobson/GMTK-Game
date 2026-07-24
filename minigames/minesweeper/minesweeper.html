@@ -1,0 +1,41 @@
+<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MINESWEEPER</title>
+  <link rel="stylesheet" href="minesweeper.css"></link>
+</head>
+
+<body>
+
+  <div id="overlayLose" class="overlay">
+        <div class="overlay-box">
+            <div class="overlay-title">FAILURE</div>
+            <button id="buttonLose">RETRY</button>
+        </div>
+    </div>
+
+  <div id="overlayWin" class="overlay">
+      <div class="overlay-box win-box">
+          <div class="overlay-title">COMPLETED</div>
+          <button id="buttonWin">RETRY</button>
+      </div>
+  </div>
+
+  <div id="ui-container">
+      <div class="header">
+          <h1>SWEEP TO DEFUSE</h1>
+          <div class="controls">
+              <input type="checkbox" id="mode">
+              <label for="mode">FLAG MINES</label>
+          </div>
+      </div>
+
+      <div class="container" id="grid"></div>
+  </div>  
+
+  <script src="minesweeper.js"></script>
+
+</body>
+</html>
