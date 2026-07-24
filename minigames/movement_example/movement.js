@@ -14,6 +14,7 @@ const Player = {
     x: 400,
     y: 400,
     speed: 2,
+    sprintSpeed: 4,
     interactionRange: 50,
     width: 50,
     height: 50,
@@ -53,6 +54,7 @@ let inputs = {
     up: false,
     down: false,
     interact: false,
+    sprint: false,
 };
 
 const cellSize = 50;
@@ -105,15 +107,28 @@ function clear() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 function updatePosition() {
-    if(inputs.left){
-        Player.x-=Player.speed;
-    } else if(inputs.right){
-        Player.x+=Player.speed;
-    }
-    if(inputs.up){
-        Player.y-=Player.speed;
-    } else if(inputs.down){
-        Player.y+=Player.speed;
+    if(inputs.sprint){
+        if(inputs.left){
+            Player.x-=Player.sprintSpeed;
+        } else if(inputs.right){
+            Player.x+=Player.sprintSpeed;
+        }
+        if(inputs.up){
+            Player.y-=Player.sprintSpeed;
+        } else if(inputs.down){
+            Player.y+=Player.sprintSpeed;
+        }
+    } else{
+        if(inputs.left){
+            Player.x-=Player.speed;
+        } else if(inputs.right){
+            Player.x+=Player.speed;
+        }
+        if(inputs.up){
+            Player.y-=Player.speed;
+        } else if(inputs.down){
+            Player.y+=Player.speed;
+        }
     }
 
     if (Player.x < 0) Player.x=0;
@@ -203,6 +218,9 @@ window.onkeydown = (key) => {
     if (key.code=="KeyE"){
         inputs.interact = true;
     }
+    if (key.code=="ShiftLeft"){
+        inputs.sprint = true;
+    }
 }
 
 
@@ -222,5 +240,8 @@ window.onkeyup = (key) => {
     }
     if (key.code=="KeyE"){
         inputs.interact = false;
+    }
+    if (key.code=="ShiftLeft"){
+        inputs.sprint = false;
     }
 };
