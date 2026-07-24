@@ -104,17 +104,17 @@ function updateCamera(){
 function checkCollisions(){
     objects.forEach(object => {
         //console.log(Player.x, Player.y, platform.x, platform.y);
-        if(((Player.y + Player.height > object.y && Player.y + Player.height < object.y+object.height) && (Player.x+Player.width > object.x && Player.x < object.x + object.width))) {
-            Player.y = object.y-Player.height;
+        if((Player.y + Player.height > object.y && Player.y + Player.height < object.y+object.height) && (Player.x+Player.width > object.x && Player.x < object.x + object.width)) {
+            Player.y -= Player.speed * inputs.down;
         } 
-        else if(((Player.y > object.y && Player.y < object.y+object.height) && (Player.x+Player.width > object.x && Player.x < object.x + object.width))) {
-            Player.y = object.y+object.height;
+        else if((Player.y > object.y && Player.y < object.y+object.height) && (Player.x+Player.width > object.x && Player.x < object.x + object.width)) {
+            Player.y += Player.speed * inputs.up;
         }
-        if(((Player.y + Player.height > object.y && Player.y < object.y+object.height) && (Player.x + Player.width > object.x && Player.x < object.x))) {
-            Player.x = object.x-Player.width;
+        if((Player.y + Player.height > object.y && Player.y < object.y+object.height) && (Player.x + Player.width > object.x && Player.x < object.x)) {
+            Player.x -= Player.speed * inputs.right;
         } 
-        else if(((Player.y + Player.height > object.y && Player.y < object.y+object.height) && (Player.x < object.x+object.width && Player.x+Player.width > object.x+object.width))) {
-            Player.x = object.x+object.width;
+        else if((Player.y + Player.height > object.y && Player.y < object.y+object.height) && (Player.x < object.x+object.width && Player.x+Player.width > object.x+object.width)) {
+            Player.x += Player.speed * inputs.left;
         }
         //if(Player.x + Player.width < platform.x) Player.x = platform.x-Player.width;
 
