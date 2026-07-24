@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Memory Puzzle</title>
+    <link rel="stylesheet" href="memorypuzzle.css">
+</head>
+
+
+<body>
+
+
+<div id="startScreen">
+
+    <h1>MEMORY PUZZLE</h1>
+
+    <p>
+        Memorize the colour sequence and repeat it in the correct order.
+    </p>
+
+    <button id="start">
+        START GAME
+    </button>
+
+</div>
+
+
+
+<div id="gameScreen">
+
+
+    <h1>MEMORY PUZZLE</h1>
+
+
+    <h2 id="round">
+        Round 1/4
+    </h2>
+
+
+    <h2 id="timer">
+        
+    </h2>
+
+
+    <p id="message">
+        
+    </p>
+
+
+
+    <!-- Shows the sequence -->
+    <h3>Memorize:</h3>
+
+    <div id="sequence"></div>
+
+
+
+    <!-- Shows player choices -->
+    <h3>Your Answer:</h3>
+
+    <div id="answer"></div>
+
+
+
+    <!-- Colour buttons -->
+    <div id="buttons">
+
+
+        <button class="colour red" data-color="RED"></button>
+
+        <button class="colour blue" data-color="BLUE"></button>
+
+        <button class="colour green" data-color="GREEN"></button>
+
+        <button class="colour yellow" data-color="YELLOW"></button>
+
+        <button class="colour black" data-color="BLACK"></button>
+
+        <button class="colour white" data-color="WHITE"></button>
+
+        <button class="colour purple" data-color="PURPLE"></button>
+
+        <button class="colour orange" data-color="ORANGE"></button>
+
+
+    </div>
+
+
+
+    <div id="controls">
+
+        <button id="erase">
+            ERASE
+        </button>
+
+
+        <button id="restart">
+            RESTART ROUND
+        </button>
+
+
+        <button id="enter">
+            ENTER
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<script src="memorypuzzle.js"></script>
+
+</body>
+
+</html>
