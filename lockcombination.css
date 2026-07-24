@@ -1,0 +1,143 @@
+body {
+
+    background:#111;
+
+    color:white;
+
+    font-family:Arial,sans-serif;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:100vh;
+
+    text-align:center;
+
+}
+
+
+
+#game {
+
+    background:#1d1d1d;
+
+    padding:40px;
+
+    width:500px;
+
+}
+
+
+
+#clues {
+
+    background:#292929;
+
+    padding:20px;
+
+    margin:20px;
+
+    text-align:left;
+
+}
+
+
+
+#code {
+
+    letter-spacing:20px;
+
+    font-size:35px;
+
+}
+
+
+
+#keypad {
+
+    display:grid;
+
+    grid-template-columns:repeat(3,80px);
+
+    justify-content:center;
+
+    gap:15px;
+
+}
+
+
+
+.number {
+
+    height:60px;
+
+    font-size:25px;
+
+    cursor:pointer;
+
+}
+
+
+
+button {
+
+    border:none;
+
+    padding:12px;
+
+}
+
+
+
+button:hover {
+
+    transform:scale(1.05);
+
+}
+
+
+
+#controls {
+
+    margin-top:20px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+}
+
+
+
+#enter {
+
+    background:#00aa55;
+
+    color:white;
+
+}
+
+
+
+#clear {
+
+    background:#aa2222;
+
+    color:white;
+
+}
+
+
+
+#restart {
+
+    background:#555;
+
+    color:white;
+
+}
