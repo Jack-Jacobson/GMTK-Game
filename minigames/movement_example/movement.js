@@ -14,6 +14,7 @@ const Player = {
     x: 400,
     y: 400,
     speed: 2,
+    interactionRange: 50,
     width: 50,
     height: 50,
     img: "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg",
@@ -29,18 +30,29 @@ const CollisionObjects = [
     {x: 200, y: 200, width: 50, height: 400, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
     {x: 200, y: 200, width: 400, height: 50, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
 ];
+const InteractableObjects = [
+    {x: 275, y: 225, width: 25, height: 25, url: '../minesweepers/Minesweepers_minigame.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 375, y: 225, width: 25, height: 25, url: '../maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+];
 
 CollisionObjects.forEach(object => {
     let img = new Image();
     img.src = object.img;
     object.img = img;
 });
+InteractableObjects.forEach(object => {
+    let img = new Image();
+    img.src = object.img;
+    object.img = img;
+});
+
 
 let inputs = {
     left: false,
     right: false,
     up: false,
     down: false,
+    interact: false,
 };
 
 const cellSize = 50;
@@ -70,6 +82,11 @@ function draw() {
     drawGrid();
     ctx.fillStyle = 'black';
     CollisionObjects.forEach(object => {
+        //ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
+        ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
+    });
+    
+    InteractableObjects.forEach(object => {
         //ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
         ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
     });
@@ -142,12 +159,28 @@ function checkCollisions(){
 }
 
 
+function checkInteractions(){
+    let hasInteracted = false;
+    InteractableObjects.forEach(object => {
+        if((object.x-Player.x)**2 + (object.y-Player.y)**2 < Player.interactionRange**2){
+            ctx.fillText("Press E to interact", object.x-Camera.x, object.y-Camera.y);
+            if(inputs.interact && !hasInteracted){
+                console.log("interacted");
+                inputs.interact=false;
+                hasInteracted = true;
+                window.open(object.url,"_blank");
+            }
+        }
+    });
+}
+
 
 function update() {
     updatePosition();
     updateCamera();
     clear();
     draw();
+    checkInteractions();
 
     requestAnimationFrame(update);
 }
@@ -155,7 +188,7 @@ update();
 
 window.onkeydown = (key) => {
     //console.log("PRESSED", key);
-    if (key.code=="KeyW" ||key.code=="Space"){
+    if (key.code=="KeyW"){
         inputs.up = true;
     } 
     if (key.code=="KeyS"){
@@ -167,12 +200,15 @@ window.onkeydown = (key) => {
     if (key.code=="KeyD"){
         inputs.right = true;
     }
+    if (key.code=="KeyE"){
+        inputs.interact = true;
+    }
 }
 
 
 window.onkeyup = (key) => {
     //console.log("RELEASED", key);
-    if (key.code=="KeyW" ||key.code=="Space"){
+    if (key.code=="KeyW"){
         inputs.up = false;
     }
     if (key.code=="KeyS"){
@@ -183,5 +219,8 @@ window.onkeyup = (key) => {
     } 
     if (key.code=="KeyD"){
         inputs.right = false;
+    }
+    if (key.code=="KeyE"){
+        inputs.interact = false;
     }
 };
