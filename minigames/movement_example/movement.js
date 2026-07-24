@@ -154,7 +154,25 @@ function updateCamera(){
 }
 
 function checkCollisions(){
-    CollisionObjects.forEach(object => {
+    if(inputs.sprint){
+        CollisionObjects.forEach(object => {
+            //console.log(Player.x, Player.y, platform.x, platform.y);
+            if((Player.y + Player.height > object.y && Player.y + Player.height <= object.y + Player.sprintSpeed) && (Player.x + Player.width > object.x && Player.x < object.x + object.width)) {
+                Player.y -= Player.sprintSpeed * inputs.down;
+            } 
+            else if((Player.y >= object.y + object.height - Player.sprintSpeed && Player.y < object.y + object.height) && (Player.x + Player.width > object.x && Player.x < object.x + object.width)) {
+                Player.y += Player.sprintSpeed * inputs.up;
+            }
+            if((Player.y + Player.height > object.y && Player.y < object.y + object.height) && (Player.x + Player.width > object.x && Player.x + Player.width <= object.x + Player.sprintSpeed)) {
+                Player.x -= Player.sprintSpeed * inputs.right;
+            } 
+            else if((Player.y + Player.height > object.y && Player.y < object.y + object.height) && (Player.x >= object.x + object.width - Player.sprintSpeed && Player.x < object.x + object.width)) {
+                Player.x += Player.sprintSpeed * inputs.left;
+            }
+            //if(Player.x + Player.width < platform.x) Player.x = platform.x-Player.width;
+        });
+    } else{
+        CollisionObjects.forEach(object => {
         //console.log(Player.x, Player.y, platform.x, platform.y);
         if((Player.y + Player.height > object.y && Player.y + Player.height <= object.y + Player.speed) && (Player.x + Player.width > object.x && Player.x < object.x + object.width)) {
             Player.y -= Player.speed * inputs.down;
@@ -171,6 +189,8 @@ function checkCollisions(){
         //if(Player.x + Player.width < platform.x) Player.x = platform.x-Player.width;
 
     });
+    }
+    
 }
 
 
