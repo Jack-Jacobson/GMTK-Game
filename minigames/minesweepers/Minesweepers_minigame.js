@@ -113,7 +113,7 @@ grid.addEventListener('click', function(event) {
                 event.target.style.backgroundColor = 'orange';
             }
         }
-    } else{
+    } else if(event.target.textContent == "O"){
         event.target.textContent = data[x][y];
         if(data[x][y]==-1){
             event.target.style.backgroundColor = 'red';
