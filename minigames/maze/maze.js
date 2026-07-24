@@ -1,7 +1,7 @@
 /* PHYSICS VARIABLES ADJUST AS NECESSARY */
 const PHYSICS = {
-    gravityStrength: 0.3,     //How fast the ball falls
-    rotationSpeed: 0.015,      //How fast A/D spins the maze (radians per frame)
+    gravityStrength: 0.7,     //How fast the ball falls
+    rotationSpeed: 0.038,      //How fast A/D spins the maze (radians per frame)
     ballBounciness: 0.7,       //Restitution (0 = lead weight, 1 = much bounce)
     ballFriction: 0.01,       //Surface friction
     ballFrictionAir: 0.02,     //Air resistance
@@ -25,7 +25,7 @@ const MAP = [
     "111100110101",
     "100110000001",
     "100011100101",
-    "110000000  111",
+    "110000000111",
     "111000000111",
     "111111111111"
 ];
