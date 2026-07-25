@@ -255,9 +255,7 @@ document.getElementById("clear")
 
 });
 
-
-
-// ENTER BUTTON
+//ENTER BUTTON
 
 document.getElementById("enter")
 .addEventListener("click", () => {
@@ -265,10 +263,8 @@ document.getElementById("enter")
 
     if(playerCode.length !== 4){
 
-
         document.getElementById("message").innerText =
         "Enter a 4 digit code!";
-
 
         return;
 
@@ -282,12 +278,11 @@ document.getElementById("enter")
         clearInterval(timer);
 
 
-
         if(currentRound === totalRounds - 1){
 
 
             document.getElementById("message").innerText =
-            "LOCK DISARMED";
+            "LOCK DISARMED ";
 
 
             disableButtons();
@@ -295,22 +290,18 @@ document.getElementById("enter")
 
         }
 
-
         else{
 
 
             document.getElementById("message").innerText =
-            "LOCK OPENED! NEXT SECURITY SYSTEM... ";
+            "LOCK OPENED! NEXT SYSTEM ";
 
 
             setTimeout(() => {
 
-
                 currentRound++;
 
-
                 loadPuzzle();
-
 
             },1500);
 
@@ -325,7 +316,14 @@ document.getElementById("enter")
 
 
         document.getElementById("message").innerText =
-        "INCORRECT CODE ";
+        "WRONG CODE, TRY AGAIN";
+
+
+        // clear the entered code
+        playerCode = "";
+
+
+        updateCode();
 
 
     }
