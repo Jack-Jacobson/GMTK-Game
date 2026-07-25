@@ -15,7 +15,9 @@ let colums = 10;
 grid.style.gridTemplateRows = `repeat(${rows},1fr)`;
 grid.style.gridTemplateColumns = `repeat(${colums},1fr)`;
 
-let MineCount = 20;
+let IsSubWindow = false;
+let AmountOfResets = 0;
+let MineCount = 1;
 let AmountOfFieldsUncovered = 0;
 let data = new Array();
 let vis = new Array();
@@ -157,19 +159,24 @@ grid.addEventListener('click', function(event) {
 
 // Restart buttons
 buttonLose.addEventListener('click', () => {
+    if(IsSubWindow) window.parent.AmountOfResetsMinesweeper++;
     reset();
     overlayLose.style.display = 'none';
 });
 
 buttonWin.addEventListener('click', () => {
-    reset();
-    overlayWin.style.display = 'none';
+    if(IsSubWindow) window.parent.WinMinesweeper();
+    else {
+        reset();
+        overlayWin.style.display = 'none';
+    }
 });
 
 
 
 /* Check if it is in an iframe window, and if so add the abilty to close with Escape Key */
 if(window.frameElement){
+    IsSubWindow = true;
     console.log("Subwindow, can be closed");
     window.onkeydown = (key) => {
         if(key.code == "Escape"){

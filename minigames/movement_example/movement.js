@@ -3,6 +3,7 @@ const ctx = canvas.getContext('2d');
 const overlay = document.getElementById("MinigameOverlay");
 const frame = document.getElementById("frame");
 const StartGameButton = document.getElementById("StartGameButton");
+const CountDownDisplay = document.getElementById("CountDownDisplay");
 
 
 const GameWidth = 1500;
@@ -58,17 +59,9 @@ InteractableObjects.forEach(object => {
     object.img = img;
 });
 
-let CountDown = 60*1.1;
+let CountDown = 60*5;
 
-/* setInterval( function () {
-    if(CountDown == 60*5){
-
-    } else if(CountDown == 60*3){
-        let MinutesLeft3 = new Audio("Assets/Audio/3 minutes left.m4a");
-        MinutesLeft3.play();
-    }
-    CountDown--;
-}, 1000); */
+let AmountOfResetsMinesweeper = 0;
 
 function drawGrid() {
     const cellSize = 50;
@@ -230,20 +223,31 @@ function CloseMinigame(){
     window.focus();
 }
 
+function WinMinesweeper(){
+    overlay.style.display = "none";
+    frame.src = "";
+    OverlayIsOpen = false;
+    window.focus();
+    if(AmountOfResetsMinesweeper == 0){
+
+    } else{
+
+    }
+}
+
 function DeactivateAllInputs(){
     for (var key in inputs) {
         inputs[key]=false;
     }
 }
 
-function UpdateAndDrawTime(){
+/* function UpdateAndDrawTime(){
     ctx.font = "20px sans-serif";
     ctx.fillStyle = 'black';
-    ctx.xol
     ctx.fillText(`Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`, canvas.width/2-80, 20);
     ctx.font = "10px sans-serif";
 
-}
+} */
 
 function update() {
     updatePosition();
@@ -269,6 +273,7 @@ function startGame(){
             MinutesLeft1.play();
         }
         CountDown--;
+        CountDownDisplay.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
     }, 1000);
     update();
 }
