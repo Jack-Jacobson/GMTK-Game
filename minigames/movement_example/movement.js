@@ -1,5 +1,7 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+const overlay = document.getElementById("overlay");
+const frame = document.getElementById("frame");
 
 
 const GameWidth = 1000;
@@ -56,6 +58,8 @@ let inputs = {
     interact: false,
     sprint: false,
 };
+
+let OverlayIsOpen = false;
 
 const cellSize = 50;
 
@@ -203,10 +207,24 @@ function checkInteractions(){
                 console.log("interacted");
                 inputs.interact=false;
                 hasInteracted = true;
-                window.open(object.url,"_blank");
+                OpenMinigame(object.url);
+                
             }
         }
     });
+}
+
+function OpenMinigame(url){
+    /* window.open(object.url,"_blank"); */
+    OverlayIsOpen = true;
+    frame.src = url;
+    overlay.style.display = "flex";
+}
+
+function CloseMiniGame(){
+    overlay.style.display = "none";
+    frame.src = "";
+    OverlayIsOpen = false;
 }
 
 
@@ -220,6 +238,11 @@ function update() {
     requestAnimationFrame(update);
 }
 update();
+
+
+window.addEventListener("CloseMiniGame", () => {
+    CloseMiniGame();
+});
 
 window.onkeydown = (key) => {
     //console.log("PRESSED", key);

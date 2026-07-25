@@ -16,11 +16,24 @@
             align-items: center; 
             height: 100vh; 
         }
+        #overlay {
+            position: fixed;
+            background: rgba(0,0,0,0.5);
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100%;
+            width: 100%; 
+            z-index: 1000;
+        }
     </style>
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="500" height="500" ></canvas>
+    <div id="overlay">
+        <iframe id="frame" width="100%" height="100%"></iframe>
+    </div>
+    <canvas id="gameCanvas" width="600" height="500" ></canvas>
     <script src="movement.js"></script>
 </body>
 </html>
