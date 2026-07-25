@@ -41,7 +41,7 @@ const puzzles = [
             "The fourth digit is the first digit - the third digit."
         ],
 
-        answer: "6423"
+        answer: "6433"
     }
 
 ];
@@ -341,7 +341,8 @@ document.getElementById("enter")
 document.getElementById("restart")
 .addEventListener("click", () => {
 
-
+    activateButtons();
+    currentRound=0;
     loadPuzzle();
 
 
@@ -358,7 +359,23 @@ function disableButtons(){
     .forEach(button => {
 
 
-        button.disabled = true;
+        if(button.id!="restart") button.disabled = true;
+
+
+    });
+
+
+}
+
+
+function activateButtons(){
+
+
+    document.querySelectorAll("button")
+    .forEach(button => {
+
+
+        if(button.id!="restart") button.disabled = false;
 
 
     });
