@@ -328,3 +328,11 @@ function disableColours(disabled) {
         });
 
 }
+
+
+window.onkeydown = (key) => {
+    if(key.code == "Escape"){
+        console.log("Escape");
+        window.parent.CloseMinigame();
+    }
+}

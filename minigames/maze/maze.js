@@ -134,3 +134,10 @@ Events.on(engine, 'collisionStart', (event) => {
 Render.run(render);
 const runner = Runner.create();
 Runner.run(runner, engine);
+
+window.onkeydown = (key) => {
+    if(key.code == "Escape"){
+        console.log("Escape");
+        window.parent.CloseMinigame();
+    }
+}

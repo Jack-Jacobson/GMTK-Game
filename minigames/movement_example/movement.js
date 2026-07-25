@@ -36,6 +36,7 @@ const CollisionObjects = [
 const InteractableObjects = [
     {x: 275, y: 225, width: 25, height: 25, url: '../minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
     {x: 375, y: 225, width: 25, height: 25, url: '../maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 475, y: 225, width: 25, height: 25, url: '../memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 ];
 
 CollisionObjects.forEach(object => {
@@ -207,6 +208,7 @@ function checkInteractions(){
                 console.log("interacted");
                 inputs.interact=false;
                 hasInteracted = true;
+                DeactivateAllInputs();
                 OpenMinigame(object.url);
                 
             }
@@ -219,12 +221,20 @@ function OpenMinigame(url){
     OverlayIsOpen = true;
     frame.src = url;
     overlay.style.display = "flex";
+    frame.focus();
 }
 
-function CloseMiniGame(){
+function CloseMinigame(){
     overlay.style.display = "none";
     frame.src = "";
     OverlayIsOpen = false;
+    window.focus();
+}
+
+function DeactivateAllInputs(){
+    for (var key in inputs) {
+        inputs[key]=false;
+    }
 }
 
 
@@ -239,10 +249,6 @@ function update() {
 }
 update();
 
-
-window.addEventListener("CloseMiniGame", () => {
-    CloseMiniGame();
-});
 
 window.onkeydown = (key) => {
     //console.log("PRESSED", key);
