@@ -49,6 +49,7 @@ const InteractableObjects = [
     {x: 275, y: 225, width: 25, height: 25, name: "Minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
     {x: 375, y: 225, width: 25, height: 25, name: "Maze", url: 'minigames/maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
     {x: 475, y: 225, width: 25, height: 25, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 575, y: 225, width: 25, height: 25, name: "LockCombination", url: 'minigames/lockcombination/lockcombination.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 ];
 
 let img = new Image();
@@ -76,11 +77,13 @@ let HasPlayedBefore = {
     "Minesweepers": false,
     "Maze": false,
     "Memorypuzzle": false,
+    "Memorypuzzle": false,
 }
 let FirstPlayVoicelines = {
     "Minesweepers": "Assets/Audio/First time doing minesweeper.m4a",
     "Maze": "",
     "Memorypuzzle": "",
+    "LockCombination": "",
 }
 
 function drawGrid() {
