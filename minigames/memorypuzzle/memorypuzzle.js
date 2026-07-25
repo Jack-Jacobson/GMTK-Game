@@ -197,6 +197,7 @@ function disableControls(disabled) {
 /* I-FRAME ESCAPE KEY LOGIC */
 if(window.frameElement){
     console.log("Subwindow, can be closed");
+    window.parent.MinigameTimer = document.getElementById("GlobalTimer");
     window.onkeydown = (key) => {
         if(key.code == "Escape"){
             console.log("Escape");
