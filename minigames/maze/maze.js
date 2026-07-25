@@ -135,9 +135,16 @@ Render.run(render);
 const runner = Runner.create();
 Runner.run(runner, engine);
 
-window.onkeydown = (key) => {
-    if(key.code == "Escape"){
-        console.log("Escape");
-        window.parent.CloseMinigame();
+
+/* Check if it is in an iframe window, and if so add the abilty to close with Escape Key */
+if(window.frameElement){
+    console.log("Subwindow, can be closed");
+    window.onkeydown = (key) => {
+        if(key.code == "Escape"){
+            console.log("Escape");
+            window.parent.CloseMinigame();
+        }
     }
+} else{
+    console.log("Not a Subwindow, can't be closed");
 }
