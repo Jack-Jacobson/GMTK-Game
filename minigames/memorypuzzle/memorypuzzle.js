@@ -253,6 +253,7 @@ document.getElementById("enter").addEventListener("click", () => {
 
             document.getElementById("message").innerText =
                 "Puzzle solved! ";
+            window.parent.WinMemory();
 
 
             disableColours(true);
@@ -289,6 +290,8 @@ document.getElementById("enter").addEventListener("click", () => {
 
         document.getElementById("message").innerText =
             "Wrong sequence!";
+        window.parent.FailMemory();
+        window.parent.AmountOfTrysMemory++;
 
 
     }

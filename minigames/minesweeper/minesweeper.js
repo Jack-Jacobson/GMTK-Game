@@ -136,6 +136,7 @@ grid.addEventListener('click', function(event) {
             event.target.style.backgroundColor = 'var(--ball)';
             event.target.style.color = 'var(--bg)';
             overlayLose.style.display = 'block';
+            if(IsSubWindow) window.parent.FailMinesweeper();
         } else if(vis[x][y] == 0){
             event.target.textContent = data[x][y] === 0 ? "" : data[x][y];
             

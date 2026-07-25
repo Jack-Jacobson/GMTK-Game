@@ -72,6 +72,7 @@ let CountDown = 60*5;
 var MinigameTimer = null;
 
 var AmountOfResetsMinesweeper = 0;
+var AmountOfTrysMemory = 0;
 
 let HasPlayedBefore = {
     "Minesweepers": false,
@@ -80,9 +81,9 @@ let HasPlayedBefore = {
     "Memorypuzzle": false,
 }
 let FirstPlayVoicelines = {
-    "Minesweepers": "Assets/Audio/First time doing minesweeper.m4a",
-    "Maze": "",
-    "Memorypuzzle": "",
+    "Minesweepers": "Assets/Audio/Minesweeper/First time doing minesweeper.m4a",
+    "Maze": "Assets/Audio/Maze/Maze puzzle start.m4a",
+    "Memorypuzzle": "Assets/Audio/Memory/Memory puzzle start.m4a",
     "LockCombination": "",
 }
 
@@ -228,6 +229,7 @@ function checkInteractions(){
                 if(!HasPlayedBefore[object.name]){
                     let audio = new Audio(FirstPlayVoicelines[object.name]);
                     audio.play();
+                    HasPlayedBefore[object.name] = true;
                 }
                 OpenMinigame(object.url);
             }
@@ -251,16 +253,55 @@ function CloseMinigame(){
     window.focus();
 }
 
+function FailMinesweeper(){
+    let index = Math.floor(Math.random()*2);
+    let audio = new Audio();
+    if(index==0) audio.src = "Assets/Audio/Minesweeper/Minesweeper fail 1.m4a";
+    else audio.src = "Assets/Audio/Minesweeper/Minesweeper fail 2.m4a";
+    audio.play();
+}
+
+function FailMaze(){
+    let index = Math.floor(Math.random()*3);
+    let audio = new Audio();
+    if(index==0) audio.src = "Assets/Audio/Maze/Maze puzzle fail 1.m4a";
+    else if(index==1) audio.src = "Assets/Audio/Maze/Maze puzzle fail 2.m4a";
+    else audio.src = "Assets/Audio/Maze/Maze puzzle fail 3.m4a";
+    audio.play();
+}
+function FailMemory(){
+    let index = Math.floor(Math.random()*3);
+    let audio = new Audio();
+    if(index==0) audio.src = "Assets/Audio/Memory/Memory puzzle fail 1.m4a";
+    else if(index==1) audio.src = "Assets/Audio/Memory/Memory puzzle fail 2.m4a";
+    else audio.src = "Assets/Audio/Memory/Memory puzzle fail 3.m4a";
+    audio.play();
+}
+
 function WinMinesweeper(){
     overlay.style.display = "none";
     frame.src = "";
     OverlayIsOpen = false;
     window.focus();
     if(AmountOfResetsMinesweeper == 0){
-        let audio = new Audio("Assets/Audio/Minesweeper perfect finish no entities.m4a");
+        let audio = new Audio("Assets/Audio/Minesweeper/Minesweeper perfect finish no entities.m4a");
         audio.play();
     } else{
-        let audio = new Audio("Assets/Audio/Minesweeper imperfect finish no entities.m4a");
+        let audio = new Audio("Assets/Audio/Minesweeper/Minesweeper imperfect finish no entities.m4a");
+        audio.play();
+    }
+}
+
+function WinMemory(){
+    overlay.style.display = "none";
+    frame.src = "";
+    OverlayIsOpen = false;
+    window.focus();
+    if(AmountOfTrysMemory == 0){
+        let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
+        audio.play();
+    } else{
+        let audio = new Audio("Assets/Audio/Memory/Memory puzzle imperfect finish.m4a");
         audio.play();
     }
 }
