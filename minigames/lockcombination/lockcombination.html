@@ -1,72 +1,59 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lock Combination</title>
     <link rel="stylesheet" href="lockcombination.css">
 </head>
-
 <body>
-    <div id="game">
-        <h1>Lock Combination</h1>
-
-        <p id="message">
-            Solve the clues to unlock the safe 
-        </p>
-
-        <div id="clues">
-    
-    </div>
-    <h2 id="round"></h2>
-
-    <h2 id="timer"></h2>
-    
-    <h2 id="code">
-        - - - -
-        </h2> 
+    <div id="ui-container">
         
+        <div class="header">
+            <h1>CRACK THE LOCK</h1>
+            <div id="timer">60:00</div>
+        </div>
 
-    <div id="keypad">
-        <button class="number">1</button>
-        <button class="number">2</button>
-        <button class="number">3</button>
+        <div class="info-row">
+            <div id="round">ROUND 1/3 - EASY</div>
+            <div id="message">SOLVE THE CLUES TO UNLOCK</div>
+        </div>
 
-        <button class="number">4</button>
-        <button class="number">5</button>
-        <button class="number">6</button>
+        <!-- Sticky Note -->
+        <div id="sticky-container">
+            <div id="clues">
+                <!-- Clues injected here -->
+            </div>
+        </div>
+        
+        <div id="code-display-container">
+            <h2 id="code">_ _ _ _</h2> 
+        </div>
 
-        <button class="number">7</button>
-        <button class="number">8</button>
-        <button class="number">9</button>
+        <div id="keypad">
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
 
-        <button class="number">0</button>
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+
+            <button class="number" id="btn-0">0</button>
+        </div>
+
+        <div id="controls">
+            <button id="clear" class="control-btn">CLEAR</button>
+            <button id="enter" class="control-btn">ENTER</button>
+            <button id="restart" class="control-btn">REBOOT</button>
+        </div>
 
     </div>
 
-    <div id="controls">
-
-        <button id="clear">
-            CLEAR
-        </button>
-
-
-        <button id="enter">
-            ENTER
-        </button>
-
-
-        <button id="restart">
-            NEW PUZZLE
-        </button>
-
-    </div>
-
-
-</div>
-
-
-<script src="lockcombination.js"></script>
-
+    <script src="lockcombination.js"></script>
 </body>
-
 </html>
