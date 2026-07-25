@@ -16,8 +16,7 @@ grid.style.gridTemplateRows = `repeat(${rows},1fr)`;
 grid.style.gridTemplateColumns = `repeat(${colums},1fr)`;
 
 let IsSubWindow = false;
-let AmountOfResets = 0;
-let MineCount = 1;
+let MineCount = 20;
 let AmountOfFieldsUncovered = 0;
 let data = new Array();
 let vis = new Array();
