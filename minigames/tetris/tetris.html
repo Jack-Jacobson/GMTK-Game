@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tetris Defuse</title>
+        <link rel="stylesheet" href="tetris.css">
+    </head>
+    <body>
+        <div id="ui-container">
+            <div class="header">
+                <h1>BLOCK DEFUSE</h1>
+                <div id="timer">PLACEHOLDER_TIMER</div>
+            </div>
+
+            <div class="game-area">
+                <canvas id="tetris" width="240" height="480"></canvas>
+                <div class="side-panel">
+                    <div class="score-box">
+                        <p>SCORE</p>
+                        <span id="score">0</span>
+                    </div>
+
+                    <div class="subtext">
+                        <strong>CONTROLS:</strong><br>
+                        LEFT/RIGHT: Move<br>
+                        UP: Rotate<br>
+                        DOWN: Drop
+                    </div>
+
+                    <div id="game-over">
+                        <h2>ERR: FAILED</h2>
+                        <button id="restart-btn">REBOOT SYSTEM</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="tetris.js"></script>
+    </body>
+</html>
