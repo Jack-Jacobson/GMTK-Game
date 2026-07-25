@@ -27,7 +27,7 @@ const MAP = [
     "100011100101",
     "110000000111",
     "111000000111",
-    "111111111111"
+    "111100001111"
 ];
 
 /* CORE LOGIC */
@@ -46,6 +46,9 @@ const render = Render.create({
 });
 const walls = [];
 let ball, goal;
+let startX = 0;
+let startY = 0;
+let isLost = false;
 const cellSize = PHYSICS.wallThickness;
 
 /* PARSE MAP */
@@ -61,6 +64,8 @@ for (let row = 0; row < MAP.length; row++) {
                 render: { fillStyle: '#333333', strokeStyle: '#222', lineWidth: 2 }
             }));
         } else if (char === 'S') {
+            startX = x;
+            startY = y;
             ball = Bodies.circle(x, y, cellSize * 0.35, {
                 restitution: PHYSICS.ballBounciness,
                 friction: PHYSICS.ballFriction,
@@ -97,10 +102,14 @@ window.addEventListener('keyup', e => {
 });
 
 /* ROTATION AND GRAVITY */
+/* ROTATION AND GRAVITY */
 Events.on(engine, 'beforeUpdate', () => {
-    // Apply rotation input
-    if (keys.a) currentAngle -= PHYSICS.rotationSpeed;
-    if (keys.d) currentAngle += PHYSICS.rotationSpeed;
+    
+    //Only allow rotation if the game is actively playing
+    if (!isLost && !isWon) {
+        if (keys.a) currentAngle -= PHYSICS.rotationSpeed;
+        if (keys.d) currentAngle += PHYSICS.rotationSpeed;
+    }
 
     //Rotates gravity instead of body
     engine.world.gravity.x = Math.sin(currentAngle) * PHYSICS.gravityStrength;
@@ -108,6 +117,14 @@ Events.on(engine, 'beforeUpdate', () => {
     
     //Visually rotates canvas
     render.canvas.style.transform = `rotate(${currentAngle}rad)`;
+
+    //Check Out of Bounds
+    if (!isLost && !isWon && ball) {
+        if (ball.position.x < -50 || ball.position.x > 530 || ball.position.y < -50 || ball.position.y > 530) {
+            isLost = true;
+            document.getElementById('game-over').style.display = 'flex';
+        }
+    }
 });
 
 /* WIN CONDITION DETECTION */
@@ -135,6 +152,19 @@ Render.run(render);
 const runner = Runner.create();
 Runner.run(runner, engine);
 
+/* RESPAWN LOGIC */
+document.getElementById('respawn-btn').addEventListener('click', () => {
+    isLost = false;
+    document.getElementById('game-over').style.display = 'none';
+    
+    // Reset ball position and stop its momentum
+    Body.setPosition(ball, { x: startX, y: startY });
+    Body.setVelocity(ball, { x: 0, y: 0 });
+    Body.setAngularVelocity(ball, 0);
+    
+    // Reset plate rotation
+    currentAngle = 0; 
+});
 
 /* Check if it is in an iframe window, and if so add the abilty to close with Escape Key */
 if(window.frameElement){

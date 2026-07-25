@@ -22,7 +22,6 @@ body {
     overflow: hidden;
     text-transform: uppercase;
 }
-
 /* SCREEN FLICKER + SCANLINES */
 body::after {
     content: " ";
@@ -102,4 +101,34 @@ canvas {
     height: 20px;
     font-weight: bold;
     color: var(--goal);
+}
+#game-over {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10, 10, 10, 0.95);
+    border: 2px solid var(--text-dim);
+    padding: 30px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+}
+#respawn-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--text-dim);
+    font-family: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#respawn-btn:hover {
+    background: var(--text-dim);
+    color: var(--bg);
 }
