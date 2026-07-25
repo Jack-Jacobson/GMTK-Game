@@ -37,10 +37,18 @@ const CollisionObjects = [
     {x: 200, y: 200, width: 50, height: 400, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
     {x: 200, y: 200, width: 400, height: 50, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
 ];
+
+
+
+/*
+To add new Minigames copy the following, replacing the path and name accordingly, with an x of 100 + the x of the previous object:
+    {x: 100+x of previous object, y: 225, width: 25, height: 25, name: "Name your Game", url: 'minigames/YOUR_GAME_FOLDER_NAME/YOUR_HTML_FILE_NAME', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+*/ 
+
 const InteractableObjects = [
-    {x: 275, y: 225, width: 25, height: 25, url: '../minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
-    {x: 375, y: 225, width: 25, height: 25, url: '../maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
-    {x: 475, y: 225, width: 25, height: 25, url: '../memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 275, y: 225, width: 25, height: 25, name: "minesweepers", url: '../minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 375, y: 225, width: 25, height: 25, name: "Maze", url: '../maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 475, y: 225, width: 25, height: 25, name: "Memorypuzzle", url: '../memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 ];
 
 let img = new Image();
@@ -198,7 +206,7 @@ function checkCollisions(){
 function checkInteractions(){
     InteractableObjects.forEach(object => {
         if((object.x-Player.x)**2 + (object.y-Player.y)**2 < Player.interactionRange**2){
-            ctx.fillText("Press E to interact", object.x-Camera.x, object.y-Camera.y);
+            ctx.fillText(`Press E to open the Minigame: ${object.name}`, object.x-Camera.x, object.y-Camera.y);
             if(inputs.interact){
                 console.log("interacted");
                 inputs.interact=false;
