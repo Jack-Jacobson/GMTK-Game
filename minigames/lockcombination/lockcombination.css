@@ -1,143 +1,191 @@
+:root {
+    /* MATCHING MAZE VARIABLES */
+    --bg: #0a0a0a;
+    --text: #ff3333;
+    --text-dim: #771111;
+    --maze-wall: #333333;
+    --maze-bg: #111111;
+    --ball: #ff0000;
+    --goal: #00ffcc;
+}
 body {
-
-    background:#111;
-
-    color:white;
-
-    font-family:Arial,sans-serif;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    min-height:100vh;
-
-    text-align:center;
-
+    /* GLOBAL SETTINGS FOR PAGE */
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    text-transform: uppercase;
 }
-
-
-
-#game {
-
-    background:#1d1d1d;
-
-    padding:40px;
-
-    width:500px;
-
+/* SCREEN FLICKER + SCANLINES */
+body::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.35) 0px,
+        rgba(0, 0, 0, 0.35) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    z-index: 999;
+    pointer-events: none;
 }
-
-
-
+#ui-container {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+}
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--text-dim);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+h1 {
+    margin: 0;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+#timer {
+    font-size: 1.5rem;
+    font-weight: bold;
+    animation: pulse 1s infinite;
+    margin: 0;
+}
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+#message {
+    color: var(--goal);
+    font-weight: bold;
+    height: 20px;
+}
+/* STICKY NOTE STYLING */
+#sticky-container {
+    position: relative;
+    width: 80%;
+    margin: 20px 0 40px 0;
+}
+/* TAPE */
+#sticky-container::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 100px;
+    height: 25px;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transform: translateX(-50%) rotate(-2deg);
+    z-index: 2;
+}
 #clues {
-
-    background:#292929;
-
-    padding:20px;
-
-    margin:20px;
-
-    text-align:left;
-
+    background: #fbf072; 
+    color: #1a1a1a;
+    padding: 20px 25px;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif; /* Hand-written feel */
+    font-size: 1.1rem;
+    text-transform: none; 
+    transform: rotate(2deg);
+    box-shadow: 3px 5px 15px rgba(0,0,0,0.6);
+    text-align: left;
+    line-height: 1.4;
 }
 
-
-
+#clues p {
+    margin: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+/* CODE DISPLAY */
+#code-display-container {
+    background: var(--maze-bg);
+    border: 2px solid var(--text-dim);
+    padding: 10px 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.1) inset;
+}
 #code {
-
-    letter-spacing:20px;
-
-    font-size:35px;
-
+    letter-spacing: 20px;
+    font-size: 40px;
+    margin: 0;
+    margin-right: -20px; 
+    color: var(--text);
+    text-shadow: 0 0 10px var(--text);
 }
-
-
-
+/* KEYPAD */
 #keypad {
-
-    display:grid;
-
-    grid-template-columns:repeat(3,80px);
-
-    justify-content:center;
-
-    gap:15px;
-
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
 }
-
-
-
 .number {
-
-    height:60px;
-
-    font-size:25px;
-
-    cursor:pointer;
-
+    height: 60px;
+    font-size: 25px;
+    background: transparent;
+    border: 2px solid var(--text-dim);
+    color: var(--text);
+    font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
+    transition: all 0.1s;
 }
-
-
-
-button {
-
-    border:none;
-
-    padding:12px;
-
+.number:hover:not(:disabled) {
+    background: var(--text-dim);
+    color: var(--bg);
 }
-
-
-
-button:hover {
-
-    transform:scale(1.05);
-
+.number:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
-
-
-
+#btn-0 {
+    grid-column: 1 / -1; 
+}
 #controls {
-
-    margin-top:20px;
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:10px;
-
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
-
-
-
-#enter {
-
-    background:#00aa55;
-
-    color:white;
-
+.control-btn {
+    padding: 10px 20px;
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--text-dim);
+    font-family: inherit;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
 }
-
-
-
-#clear {
-
-    background:#aa2222;
-
-    color:white;
-
+.control-btn:hover:not(:disabled) {
+    background: var(--text-dim);
+    color: var(--bg);
 }
-
-
-
-#restart {
-
-    background:#555;
-
-    color:white;
-
+.control-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
