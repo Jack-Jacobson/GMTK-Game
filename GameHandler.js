@@ -42,11 +42,11 @@ const CollisionObjects = [
 
 /*
 To add new Minigames copy the following, replacing the path and name accordingly, with an x of 100 + the x of the previous object:
-    {x: 100+x of previous object, y: 225, width: 25, height: 25, name: "Name your Game", url: 'minigames/YOUR_GAME_FOLDER_NAME/YOUR_HTML_FILE_NAME', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 100+x of previous object, y: 225, width: 25, height: 25, name: "Name of your Game", url: 'minigames/YOUR_GAME_FOLDER_NAME/YOUR_HTML_FILE_NAME', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 */ 
 
 const InteractableObjects = [
-    {x: 275, y: 225, width: 25, height: 25, name: "minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 275, y: 225, width: 25, height: 25, name: "Minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
     {x: 375, y: 225, width: 25, height: 25, name: "Maze", url: 'minigames/maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
     {x: 475, y: 225, width: 25, height: 25, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 ];
@@ -71,6 +71,17 @@ let CountDown = 60*5;
 var MinigameTimer = null;
 
 var AmountOfResetsMinesweeper = 0;
+
+let HasPlayedBefore = {
+    "Minesweepers": false,
+    "Maze": false,
+    "Memorypuzzle": false,
+}
+let FirstPlayVoicelines = {
+    "Minesweepers": "Assets/Audio/First time doing minesweeper.m4a",
+    "Maze": "",
+    "Memorypuzzle": "",
+}
 
 function drawGrid() {
     const cellSize = 50;
@@ -211,6 +222,10 @@ function checkInteractions(){
                 console.log("interacted");
                 inputs.interact=false;
                 DeactivateAllInputs();
+                if(!HasPlayedBefore[object.name]){
+                    let audio = new Audio(FirstPlayVoicelines[object.name]);
+                    audio.play();
+                }
                 OpenMinigame(object.url);
             }
         }
@@ -239,9 +254,11 @@ function WinMinesweeper(){
     OverlayIsOpen = false;
     window.focus();
     if(AmountOfResetsMinesweeper == 0){
-
+        let audio = new Audio("Assets/Audio/Minesweeper perfect finish no entities.m4a");
+        audio.play();
     } else{
-
+        let audio = new Audio("Assets/Audio/Minesweeper imperfect finish no entities.m4a");
+        audio.play();
     }
 }
 
