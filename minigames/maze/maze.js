@@ -139,6 +139,7 @@ Runner.run(runner, engine);
 /* Check if it is in an iframe window, and if so add the abilty to close with Escape Key */
 if(window.frameElement){
     console.log("Subwindow, can be closed");
+    window.parent.MinigameTimer = document.getElementById("timer");
     window.onkeydown = (key) => {
         if(key.code == "Escape"){
             console.log("Escape");

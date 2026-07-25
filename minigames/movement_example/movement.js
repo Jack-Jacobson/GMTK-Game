@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 const overlay = document.getElementById("MinigameOverlay");
 const frame = document.getElementById("frame");
 const StartGameButton = document.getElementById("StartGameButton");
-const CountDownDisplay = document.getElementById("CountDownDisplay");
+const timer = document.getElementById("timer");
 
 
 const GameWidth = 1500;
@@ -60,8 +60,9 @@ InteractableObjects.forEach(object => {
 });
 
 let CountDown = 60*5;
+var MinigameTimer = null;
 
-let AmountOfResetsMinesweeper = 0;
+var AmountOfResetsMinesweeper = 0;
 
 function drawGrid() {
     const cellSize = 50;
@@ -220,6 +221,7 @@ function CloseMinigame(){
     overlay.style.display = "none";
     frame.src = "";
     OverlayIsOpen = false;
+    MinigameTimer = null;
     window.focus();
 }
 
@@ -241,13 +243,7 @@ function DeactivateAllInputs(){
     }
 }
 
-/* function UpdateAndDrawTime(){
-    ctx.font = "20px sans-serif";
-    ctx.fillStyle = 'black';
-    ctx.fillText(`Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`, canvas.width/2-80, 20);
-    ctx.font = "10px sans-serif";
 
-} */
 
 function update() {
     updatePosition();
@@ -255,12 +251,13 @@ function update() {
     clear();
     drawPlayerAndEnvironment();
     checkInteractions();
-    UpdateAndDrawTime();
+    //UpdateAndDrawTime();
 
     requestAnimationFrame(update);
 }
 
 function startGame(){
+    timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
     
     setInterval( function () {
         if(CountDown == 60*5){
@@ -273,7 +270,8 @@ function startGame(){
             MinutesLeft1.play();
         }
         CountDown--;
-        CountDownDisplay.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
+        timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
+        if(MinigameTimer) MinigameTimer.textContent = `${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
     }, 1000);
     update();
 }
@@ -282,7 +280,7 @@ function startGame(){
 
 StartGameButton.addEventListener('click', () => {
     document.getElementById("StartScreen").style.display="none";
-    document.getElementById("Content").style.display="block";
+    document.getElementById("ui-container").style.display="flex";
     startGame();
 });
 

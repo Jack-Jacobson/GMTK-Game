@@ -178,6 +178,7 @@ buttonWin.addEventListener('click', () => {
 if(window.frameElement){
     IsSubWindow = true;
     console.log("Subwindow, can be closed");
+    window.parent.MinigameTimer = document.getElementById("timer");
     window.onkeydown = (key) => {
         if(key.code == "Escape"){
             console.log("Escape");
