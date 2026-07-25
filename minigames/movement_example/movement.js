@@ -22,12 +22,14 @@ const Player = {
     height: 50,
     img: "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg",
 }
-
-let img = new Image();
-img.src = Player.img;
-Player.img = img;
-delete(img);
-
+const inputs = {
+    left: false,
+    right: false,
+    up: false,
+    down: false,
+    interact: false,
+    sprint: false,
+};
 
 const CollisionObjects = [
     {x: 200, y: 200, width: 50, height: 400, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
@@ -38,6 +40,11 @@ const InteractableObjects = [
     {x: 375, y: 225, width: 25, height: 25, url: '../maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
     {x: 475, y: 225, width: 25, height: 25, url: '../memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 ];
+
+let img = new Image();
+img.src = Player.img;
+Player.img = img;
+delete(img);
 
 CollisionObjects.forEach(object => {
     let img = new Image();
@@ -51,20 +58,12 @@ InteractableObjects.forEach(object => {
 });
 
 
-let inputs = {
-    left: false,
-    right: false,
-    up: false,
-    down: false,
-    interact: false,
-    sprint: false,
-};
 
-let OverlayIsOpen = false;
 
-const cellSize = 50;
+
 
 function drawGrid() {
+    const cellSize = 50;
     ctx.beginPath();
     ctx.strokeStyle = "black";
 
@@ -83,9 +82,7 @@ function drawGrid() {
     ctx.stroke();
 }
 
-
-
-function draw() {
+function drawPlayerAndEnvironment() {
     drawGrid();
     ctx.fillStyle = 'black';
     CollisionObjects.forEach(object => {
@@ -98,9 +95,6 @@ function draw() {
         ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
     });
 
-
-
-
     ctx.fillStyle = 'blue';
     
     ctx.fillRect(Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
@@ -111,6 +105,7 @@ function draw() {
 function clear() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
+
 function updatePosition() {
     if(inputs.sprint){
         if(inputs.left){
@@ -198,19 +193,15 @@ function checkCollisions(){
     
 }
 
-
 function checkInteractions(){
-    let hasInteracted = false;
     InteractableObjects.forEach(object => {
         if((object.x-Player.x)**2 + (object.y-Player.y)**2 < Player.interactionRange**2){
             ctx.fillText("Press E to interact", object.x-Camera.x, object.y-Camera.y);
-            if(inputs.interact && !hasInteracted){
+            if(inputs.interact){
                 console.log("interacted");
                 inputs.interact=false;
-                hasInteracted = true;
                 DeactivateAllInputs();
                 OpenMinigame(object.url);
-                
             }
         }
     });
@@ -238,16 +229,26 @@ function DeactivateAllInputs(){
 }
 
 
+
+
+
+
+
+
 function update() {
     updatePosition();
     updateCamera();
     clear();
-    draw();
+    drawPlayerAndEnvironment();
     checkInteractions();
 
     requestAnimationFrame(update);
 }
 update();
+
+
+
+
 
 
 window.onkeydown = (key) => {
