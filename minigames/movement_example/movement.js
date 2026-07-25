@@ -1,11 +1,12 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const overlay = document.getElementById("overlay");
+const overlay = document.getElementById("MinigameOverlay");
 const frame = document.getElementById("frame");
+const StartGameButton = document.getElementById("StartGameButton");
 
 
-const GameWidth = 1000;
-const GameHeight = 1000;
+const GameWidth = 1500;
+const GameHeight = 1500;
 
 const Camera = {
     x: 0,
@@ -57,10 +58,17 @@ InteractableObjects.forEach(object => {
     object.img = img;
 });
 
+let CountDown = 60*1.1;
 
+/* setInterval( function () {
+    if(CountDown == 60*5){
 
-
-
+    } else if(CountDown == 60*3){
+        let MinutesLeft3 = new Audio("Assets/Audio/3 minutes left.m4a");
+        MinutesLeft3.play();
+    }
+    CountDown--;
+}, 1000); */
 
 function drawGrid() {
     const cellSize = 50;
@@ -228,12 +236,14 @@ function DeactivateAllInputs(){
     }
 }
 
+function UpdateAndDrawTime(){
+    ctx.font = "20px sans-serif";
+    ctx.fillStyle = 'black';
+    ctx.xol
+    ctx.fillText(`Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`, canvas.width/2-80, 20);
+    ctx.font = "10px sans-serif";
 
-
-
-
-
-
+}
 
 function update() {
     updatePosition();
@@ -241,15 +251,35 @@ function update() {
     clear();
     drawPlayerAndEnvironment();
     checkInteractions();
+    UpdateAndDrawTime();
 
     requestAnimationFrame(update);
 }
-update();
+
+function startGame(){
+    
+    setInterval( function () {
+        if(CountDown == 60*5){
+
+        } else if(CountDown == 60*3){
+            let MinutesLeft3 = new Audio("Assets/Audio/3 minutes left.m4a");
+            MinutesLeft3.play();
+        } else if(CountDown == 60){
+            let MinutesLeft1 = new Audio("Assets/Audio/1 minute left.m4a");
+            MinutesLeft1.play();
+        }
+        CountDown--;
+    }, 1000);
+    update();
+}
 
 
 
-
-
+StartGameButton.addEventListener('click', () => {
+    document.getElementById("StartScreen").style.display="none";
+    document.getElementById("Content").style.display="block";
+    startGame();
+});
 
 window.onkeydown = (key) => {
     //console.log("PRESSED", key);
@@ -294,4 +324,4 @@ window.onkeyup = (key) => {
     if (key.code=="ShiftLeft"){
         inputs.sprint = false;
     }
-};
+}
