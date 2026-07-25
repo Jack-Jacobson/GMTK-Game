@@ -102,7 +102,6 @@ window.addEventListener('keyup', e => {
 });
 
 /* ROTATION AND GRAVITY */
-/* ROTATION AND GRAVITY */
 Events.on(engine, 'beforeUpdate', () => {
     
     //Only allow rotation if the game is actively playing
@@ -114,9 +113,6 @@ Events.on(engine, 'beforeUpdate', () => {
     //Rotates gravity instead of body
     engine.world.gravity.x = Math.sin(currentAngle) * PHYSICS.gravityStrength;
     engine.world.gravity.y = Math.cos(currentAngle) * PHYSICS.gravityStrength;
-    
-    //Visually rotates canvas
-    render.canvas.style.transform = `rotate(${currentAngle}rad)`;
 
     //Check Out of Bounds
     if (!isLost && !isWon && ball) {
@@ -126,6 +122,14 @@ Events.on(engine, 'beforeUpdate', () => {
         }
     }
 });
+
+/* HARDWARE ACCELERATED VISUAL RENDERING (FIXES FPS LAG) */
+function updateVisuals() {
+    // translate3d forces the browser to composite this on the GPU, bypassing the scanline render lag
+    render.canvas.style.transform = `translate3d(0, 0, 0) rotate(${currentAngle}rad)`;
+    requestAnimationFrame(updateVisuals);
+}
+requestAnimationFrame(updateVisuals);
 
 /* WIN CONDITION DETECTION */
 Events.on(engine, 'collisionStart', (event) => {
@@ -166,16 +170,16 @@ document.getElementById('respawn-btn').addEventListener('click', () => {
     currentAngle = 0; 
 });
 
-/* Check if it is in an iframe window, and if so add the abilty to close with Escape Key */
+/* Check if it is in an iframe window, and if so add the ability to close with Escape Key */
 if(window.frameElement){
     console.log("Subwindow, can be closed");
     window.parent.MinigameTimer = document.getElementById("timer");
-    window.onkeydown = (key) => {
+    window.addEventListener('keydown', (key) => {
         if(key.code == "Escape"){
             console.log("Escape");
             window.parent.CloseMinigame();
         }
-    }
+    });
 } else{
     console.log("Not a Subwindow, can't be closed");
 }
