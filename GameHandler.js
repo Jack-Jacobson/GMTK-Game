@@ -427,8 +427,8 @@ function DeactivateAllInputs(){
 }
 
 function MusicHandler(){
-    mainAudio.src = "Assets/audio/music/gmtk.wav";
-    loopAudio.src = "Assets/audio/music/gmtk loop.wav";
+    mainAudio.src = "Assets/Audio/Music/gmtk.wav";
+    loopAudio.src = "Assets/Audio/Music/gmtk loop.wav";
     loopAudio.loop = true;
     
     mainAudio.play();
