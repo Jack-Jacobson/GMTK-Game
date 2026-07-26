@@ -19,7 +19,7 @@ const Player = {
     y: 200,
     speed: 2,
     sprintSpeed: 4,
-    interactionRange: 50,
+    interactionRange: 75,
     width: 30,
     height: 30,
     imgWidth: 30,
@@ -44,6 +44,9 @@ const CollisionObjects = [
     {x: 0, y: 482, width: GameWidth, height: 23},
     {x: 374, y: 275, width: 113, height: 229},
     {x: 486, y: 380, width: 164, height: 123},
+    {x: 270, y: 280, width: 95, height: 82, name: "box/locker"},
+    {x: 18, y: 260, width: 99, height: 130, name: "commode"},
+    {x: 585, y: 265, width: 41.5, height: 58, name: "fileholderbox"},
 ];
 
 
@@ -54,17 +57,18 @@ To add new Minigames copy the following, replacing the path and name accordingly
 */ 
 
 const InteractableObjects = [
-    {x: 250, y: 212.5, width: 50, height: 25, name: "Minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "Assets/sprites/tv.png"},
-    {x: 350, y: 212.5, width: 50, height: 25, name: "Maze", url: 'minigames/maze/maze.html', img: "Assets/sprites/tv.png"},
-    {x: 450, y: 212.5, width: 50, height: 25, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "Assets/sprites/tv.png"},
-    {x: 550, y: 212.5, width: 50, height: 25, name: "LockCombination", url: 'minigames/lockcombination/lockcombination.html', img: "Assets/sprites/tv.png"},
-    {x: 650, y: 212.5, width: 50, height: 25, name: "Tetris", url: 'minigames/tetris/tetris.html', img: "Assets/sprites/tv.png"},
+    {x: 270, y: 280, width: 97.5, height: 120, name: "Minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "Assets/sprites/lockers.png"},
+    {x: 300, y: 40, width: 80, height: 80, name: "Maze", url: 'minigames/maze/maze.html', img: "Assets/sprites/electricalbox.png"},
+    {x: 60, y: 50, width: 85, height: 51, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "Assets/sprites/pinboard.png"},
+    {x: 585, y: 270, width: 41.5, height: 53, name: "LockCombination", url: 'minigames/lockcombination/lockcombination.html', img: "Assets/sprites/fileholderbox.png"},
+    {x: 18, y: 270, width: 99, height: 120, name: "Tetris", url: 'minigames/tetris/tetris.html', img: "Assets/sprites/commode.png"},
 ];
 
 const VisualObjects = [
     {x: 0, y: 0, width: 650, height: 500, name: "Room", img: "Assets/sprites/room.png"},
     {x: 480, y: 110, width: 120, height: 80, name: "table", img: "Assets/sprites/table.png"},
     {x: 517, y: 110, width: 50, height: 28.125, name: "bomb", img: "Assets/sprites/bomb.png"},
+    {x: 300, y: 270, width: 73, height: 82, name: "box", img: "Assets/sprites/box.png"},
 ];
 
 let img = new Image();
@@ -137,25 +141,15 @@ let tv = window.getComputedStyle(document.body).getPropertyValue('--tv');
 let playercol = window.getComputedStyle(document.body).getPropertyValue('--player');
 
 function drawPlayerAndEnvironment() {
-    drawGrid();
-    ctx.fillStyle = wall
-    CollisionObjects.forEach(object => {
-        ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
-        //ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
-    });
-    
-    InteractableObjects.forEach(object => {
-        ctx.fillStyle = "#111111";
-        ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
-        ctx.fillStyle = tv;
-        ctx.fillRect(object.x - Camera.x+2, object.y-Camera.y+2, object.width-4, object.height-4);
-        //ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
-    });
+    drawGrid(); 
 
     VisualObjects.forEach(object => {
         ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
     });
-    ctx.fillStyle = playercol
+
+    InteractableObjects.forEach(object => {
+        ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
+    });
     
     //ctx.fillRect(Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
     ctx.drawImage(Player.img,Player.x-Camera.x, Player.y-Camera.y-Player.height, Player.imgWidth, Player.imgHeight);
@@ -200,7 +194,7 @@ function updatePosition() {
     
 
     checkCollisions();
-
+console.log(Player.x, Player.y);
 }
 
 function updateCamera(){
@@ -255,7 +249,7 @@ function checkCollisions(){
 
 function checkInteractions(){
     InteractableObjects.forEach(object => {
-        if((object.x-Player.x)**2 + (object.y-Player.y)**2 < Player.interactionRange**2){
+        if(((object.x+object.width/2)-Player.x)**2 + ((object.y+object.height/2)-Player.y)**2 < Player.interactionRange**2){
             //console.log(window.getComputedStyle(document.body).getPropertyValue('--text-dim'));
             ctx.fillStyle =  text;
             ctx.fillText(`Press E to open the Minigame: ${object.name}`, object.x-Camera.x, object.y-Camera.y);
