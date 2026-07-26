@@ -617,7 +617,7 @@ function RestartGame() {
     // Start again
     startGame();
 }
-
+document.getElementById("TryAgainButton").addEventListener("click", RestartGame);
 window.onkeyup = (key) => {
     //console.log("RELEASED", key);
     if (key.code=="KeyW"){
