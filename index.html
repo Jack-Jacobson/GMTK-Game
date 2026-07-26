@@ -72,6 +72,16 @@
             width: 100%; 
             z-index: 10;
         }
+        #LoseScreen {
+            position: fixed;
+            background: rgba(0,0,0,0.5);
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100%;
+            width: 100%; 
+            z-index: 10;
+        }
         #ui-container {
             width: auto;
             display: none;
@@ -140,6 +150,12 @@
         <div class="title">
             <h1>Every Second Counts</h1>
             <button id="StartGameButton" class="btn">Start Game</button>
+        </div>
+    </div>
+    <div id="LoseScreen">
+        <div class="title">
+            <h1>You lost</h1>
+            <div>Reload the page to try again!</div>
         </div>
     </div>
 

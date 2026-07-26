@@ -94,8 +94,10 @@ VisualObjects.forEach(object => {
 
 let EndHAppened = false;
 
-let CountDown = 60*5;
+let CountDown = 60*0.2;
 var MinigameTimer = null;
+let mainAudio = new Audio();
+let loopAudio = new Audio();
 let GameTimer;
 
 var AmountOfResetsMinesweeper = 0;
@@ -422,16 +424,14 @@ function DeactivateAllInputs(){
 }
 
 function MusicHandler(){
-    let mainAudio = new Audio();
-    let secAudio = new Audio();
     mainAudio.src = "Assets/audio/music/gmtk.wav";
-    secAudio.src = "Assets/audio/music/gmtk loop.wav";
-    secAudio.loop = true;
+    loopAudio.src = "Assets/audio/music/gmtk loop.wav";
+    loopAudio.loop = true;
     
     mainAudio.play();
     setTimeout(() => {
         console.log("secAudio start", 60*5-CountDown);
-        secAudio.play();
+        loopAudio.play();
         
     }, 98000);
 }
@@ -442,13 +442,22 @@ function EndSequence(){
     let audio = new Audio();
     audio.src="Assets/Ausdio/All puzzles completed.m4a";
     audio.play();
+
     setTimeout(() => {
         GameTimer = setInterval(function () {
            
             CountDown--;
             timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
             if(MinigameTimer) MinigameTimer.textContent = `${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
-
+            
+            if(CountDown==0){
+                loopAudio.pause();
+                mainAudio.pause();
+                overlay.style.display = "none";
+                frame.src = "";
+                document.getElementById("ui-container").style.display="none";
+                document.getElementById("LoseScreen").style.display="flex";
+            }
         }, 1000);
 
     })
@@ -508,17 +517,20 @@ function startGame(){
 
         CountDown--;
 
-        if (CountDown < 0) {
-            CountDown = 0;
+        if (CountDown == 0) {
+            loopAudio.pause();
+            document.getElementById("ui-container").style.display="none";
         }
 
         timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
         if(MinigameTimer) MinigameTimer.textContent = `${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
 
-        if (CountDown <= 0) {
-            timer.textContent = `Time Left: 0:00`;
-            if(MinigameTimer) MinigameTimer.textContent = `0:00`;
-            clearInterval(GameTimer);
+        if (CountDown == 0) {
+            loopAudio.pause();
+            mainAudio.pause();
+            overlay.style.display = "none";
+            frame.src = "";
+            document.getElementById("LoseScreen").style.display="flex";
         }
     }, 1000);
 
