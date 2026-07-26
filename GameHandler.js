@@ -94,7 +94,7 @@ VisualObjects.forEach(object => {
 
 let EndHAppened = false;
 
-let CountDown = 60*5;
+let CountDown = 60*0.1;
 var MinigameTimer = null;
 let mainAudio = new Audio();
 let loopAudio = new Audio();
@@ -443,7 +443,7 @@ function EndSequence(){
     clearInterval(GameTimer);
 
     let audio = new Audio();
-    audio.src="Assets/Ausdio/All puzzles completed.m4a";
+    audio.src="Assets/Audio/All puzzles completed.m4a";
     audio.play();
 
     setTimeout(() => {
