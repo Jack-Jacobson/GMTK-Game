@@ -359,6 +359,21 @@ function DeactivateAllInputs(){
     }
 }
 
+function MusicHandler(){
+    let mainAudio = new Audio();
+    let secAudio = new Audio();
+    mainAudio.src = "Assets/audio/music/gmtk.wav";
+    secAudio.src = "Assets/audio/music/gmtk loop.wav";
+    secAudio.loop = true;
+    
+    mainAudio.play();
+    setTimeout(() => {
+        console.log("secAudio start", 60*5-CountDown);
+        secAudio.play();
+        
+    }, 98000);
+}
+
 
 
 function update() {
@@ -389,6 +404,7 @@ function startGame(){
         timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
         if(MinigameTimer) MinigameTimer.textContent = `${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
     }, 1000);
+    MusicHandler();
     update();
 }
 
