@@ -90,6 +90,7 @@ VisualObjects.forEach(object => {
 
 let CountDown = 60*5;
 var MinigameTimer = null;
+var GameTimer = null;
 
 var AmountOfResetsMinesweeper = 0;
 var AmountOfTrysMaze = 0;
@@ -430,7 +431,21 @@ function update() {
 function startGame(){
     timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
     
-    setInterval( function () {
+    if (GameTimer) {
+        clearInterval(GameTimer);
+        GameTimer = null;
+    }
+
+    GameTimer = setInterval(function () {
+        if (CountDown <= 0) {
+            CountDown = 0;
+            timer.textContent = `Time Left: 0:00`;
+            if(MinigameTimer) MinigameTimer.textContent = `0:00`;
+            clearInterval(GameTimer);
+            GameTimer = null;
+            return;
+        }
+
         if(CountDown == 60*5){
 
         } else if(CountDown == 60*3){
@@ -440,10 +455,24 @@ function startGame(){
             let MinutesLeft1 = new Audio("Assets/Audio/1 minute left.m4a");
             MinutesLeft1.play();
         }
+
         CountDown--;
+
+        if (CountDown < 0) {
+            CountDown = 0;
+        }
+
         timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
         if(MinigameTimer) MinigameTimer.textContent = `${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
+
+        if (CountDown <= 0) {
+            timer.textContent = `Time Left: 0:00`;
+            if(MinigameTimer) MinigameTimer.textContent = `0:00`;
+            clearInterval(GameTimer);
+            GameTimer = null;
+        }
     }, 1000);
+
     MusicHandler();
     update();
 }
