@@ -6,8 +6,8 @@ const StartGameButton = document.getElementById("StartGameButton");
 const timer = document.getElementById("timer");
 
 
-const GameWidth = 650;
-const GameHeight = 500;
+const GameWidth = canvas.width;
+const GameHeight = canvas.height;
 
 const Camera = {
     x: 0,
@@ -34,8 +34,14 @@ const inputs = {
 };
 
 const CollisionObjects = [
-    {x: 200, y: 200, width: 50, height: 400, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
-    {x: 200, y: 200, width: 400, height: 50, img: "https://upload.wikimedia.org/wikipedia/commons/5/51/Stochomys_longicaudatus_distribution_map.png"},
+    {x: 0, y: 0, width: 410, height: 116},
+    {x: 400, y: 0, width: 250, height: 108},
+    {x: 0, y: 0, width: 17, height: GameHeight},
+    {x: 391, y: 0, width: 89, height:181},
+    {x: 632, y: 0, width: 17, height:GameHeight},
+    {x: 0, y: 482, width: GameWidth, height: 23},
+    {x: 374, y: 275, width: 113, height: 229},
+    {x: 486, y: 380, width: 164, height: 123},
 ];
 
 
@@ -183,7 +189,7 @@ function updatePosition() {
     if (Player.x < 0) Player.x=0;
     else if (Player.x > GameWidth-Player.width) Player.x=GameWidth-Player.width;
     if (Player.y < 0) Player.y=0;
-    else if (Player.y > GameWidth-Player.height) Player.y=GameWidth-Player.height;
+    else if (Player.y > GameHeight-Player.height) Player.y=GameHeight-Player.height;
 
 
     
@@ -199,7 +205,7 @@ function updateCamera(){
     if (Camera.x < 0) Camera.x=0;
     else if (Camera.x > GameWidth-canvas.width) Camera.x=GameWidth-canvas.width;
     if (Camera.y < 0) Camera.y=0;
-    else if (Camera.y > GameWidth-canvas.height) Camera.y=GameWidth-canvas.height;
+    else if (Camera.y > GameHeight-canvas.height) Camera.y=GameWidth-canvas.height;
 }
 
 function checkCollisions(){
@@ -408,7 +414,7 @@ function MusicHandler(){
 
 function update() {
     updatePosition();
-    updateCamera();
+    //updateCamera();
     clear();
     drawPlayerAndEnvironment();
     checkInteractions();
