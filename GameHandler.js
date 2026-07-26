@@ -37,7 +37,7 @@ const CollisionObjects = [
     {x: 0, y: 0, width: 410, height: 116},
     {x: 400, y: 0, width: 250, height: 108},
     {x: 0, y: 0, width: 17, height: GameHeight},
-    {x: 391, y: 0, width: 89, height:181},
+    {x: 391, y: 0, width: 209, height:181},
     {x: 632, y: 0, width: 17, height:GameHeight},
     {x: 0, y: 482, width: GameWidth, height: 23},
     {x: 374, y: 275, width: 113, height: 229},
@@ -61,6 +61,8 @@ const InteractableObjects = [
 
 const VisualObjects = [
     {x: 0, y: 0, width: 650, height: 500, name: "Room", img: "Assets/sprites/room.png"},
+    {x: 480, y: 110, width: 120, height: 80, name: "table", img: "Assets/sprites/table.png"},
+    {x: 517, y: 110, width: 50, height: 28.125, name: "bomb", img: "Assets/sprites/bomb.png"},
 ];
 
 let img = new Image();
