@@ -50,6 +50,7 @@ const InteractableObjects = [
     {x: 350, y: 212.5, width: 50, height: 25, name: "Maze", url: 'minigames/maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
     {x: 450, y: 212.5, width: 50, height: 25, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
     {x: 550, y: 212.5, width: 50, height: 25, name: "LockCombination", url: 'minigames/lockcombination/lockcombination.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 650, y: 212.5, width: 50, height: 25, name: "Tetris", url: 'minigames/tetris/tetris.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 ];
 
 let img = new Image();
