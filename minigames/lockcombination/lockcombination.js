@@ -212,7 +212,7 @@ loadPuzzle();
 if(window.frameElement){
     IsSubWindow = true;
     console.log("Subwindow, can be closed");
-    window.parent.MinigameTimer = document.getElementById("timer");
+    window.parent.MinigameTimer = document.getElementById("GlobalTimer");
     window.onkeydown = (key) => {
         if(key.code == "Escape"){
             console.log("Escape");
