@@ -6,8 +6,8 @@ const StartGameButton = document.getElementById("StartGameButton");
 const timer = document.getElementById("timer");
 
 
-const GameWidth = 1500;
-const GameHeight = 1500;
+const GameWidth = 650;
+const GameHeight = 500;
 
 const Camera = {
     x: 0,
@@ -53,6 +53,10 @@ const InteractableObjects = [
     {x: 650, y: 212.5, width: 50, height: 25, name: "Tetris", url: 'minigames/tetris/tetris.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 ];
 
+const VisualObjects = [
+    {x: 0, y: 0, width: 650, height: 500, name: "Room", img: "Assets/sprites/room.png"},
+];
+
 let img = new Image();
 img.src = Player.img;
 Player.img = img;
@@ -64,6 +68,11 @@ CollisionObjects.forEach(object => {
     object.img = img;
 });
 InteractableObjects.forEach(object => {
+    let img = new Image();
+    img.src = object.img;
+    object.img = img;
+});
+VisualObjects.forEach(object => {
     let img = new Image();
     img.src = object.img;
     object.img = img;
@@ -130,6 +139,10 @@ function drawPlayerAndEnvironment() {
         ctx.fillStyle = tv;
         ctx.fillRect(object.x - Camera.x+2, object.y-Camera.y+2, object.width-4, object.height-4);
         //ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
+    });
+
+    VisualObjects.forEach(object => {
+        ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
     });
     ctx.fillStyle = playercol
     

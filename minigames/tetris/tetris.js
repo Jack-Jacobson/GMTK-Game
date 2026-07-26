@@ -198,7 +198,7 @@ function update(time = 0) {
     }
 
     draw();
-    if(player.score == 500) window.parent.WinTetris();
+    if(player.score == 200) window.parent.WinTetris();
     requestAnimationFrame(update);
 }
 
@@ -213,19 +213,20 @@ const player = {
 /* INPUT HANDLING */
 document.addEventListener('keydown', event => {
     if (isGameOver) return;
+    console.log(event.code);
     
     // Prevent default scrolling behavior for arrows
     if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight", "Space"].indexOf(event.code) > -1) {
         event.preventDefault();
     }
 
-    if (event.key === 'ArrowLeft') {
+    if (event.code === 'ArrowLeft' || event.code === 'KeyA') {
         playerMove(-1);
-    } else if (event.key === 'ArrowRight') {
+    } else if (event.code === 'ArrowRight' || event.code === 'KeyD' ) {
         playerMove(1);
-    } else if (event.key === 'ArrowDown') {
+    } else if (event.code === 'ArrowDown' || event.code === 'KeyS') {
         playerDrop();
-    } else if (event.key === 'ArrowUp') {
+    } else if (event.code === 'ArrowUp' || event.code === 'KeyW') {
         playerRotate(1);
     }
 });
