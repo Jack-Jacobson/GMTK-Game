@@ -15,14 +15,16 @@ const Camera = {
 };
 
 const Player = {
-    x: 400,
-    y: 400,
+    x: 200,
+    y: 200,
     speed: 2,
     sprintSpeed: 4,
     interactionRange: 50,
-    width: 50,
-    height: 50,
-    img: "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg",
+    width: 30,
+    height: 30,
+    imgWidth: 30,
+    imgHeight: 66,
+    img: "Assets/sprites/player.png",
 }
 const inputs = {
     left: false,
@@ -52,11 +54,11 @@ To add new Minigames copy the following, replacing the path and name accordingly
 */ 
 
 const InteractableObjects = [
-    {x: 250, y: 212.5, width: 50, height: 25, name: "Minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
-    {x: 350, y: 212.5, width: 50, height: 25, name: "Maze", url: 'minigames/maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
-    {x: 450, y: 212.5, width: 50, height: 25, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
-    {x: 550, y: 212.5, width: 50, height: 25, name: "LockCombination", url: 'minigames/lockcombination/lockcombination.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
-    {x: 650, y: 212.5, width: 50, height: 25, name: "Tetris", url: 'minigames/tetris/tetris.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 250, y: 212.5, width: 50, height: 25, name: "Minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "Assets/sprites/tv.png"},
+    {x: 350, y: 212.5, width: 50, height: 25, name: "Maze", url: 'minigames/maze/maze.html', img: "Assets/sprites/tv.png"},
+    {x: 450, y: 212.5, width: 50, height: 25, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "Assets/sprites/tv.png"},
+    {x: 550, y: 212.5, width: 50, height: 25, name: "LockCombination", url: 'minigames/lockcombination/lockcombination.html', img: "Assets/sprites/tv.png"},
+    {x: 650, y: 212.5, width: 50, height: 25, name: "Tetris", url: 'minigames/tetris/tetris.html', img: "Assets/sprites/tv.png"},
 ];
 
 const VisualObjects = [
@@ -154,8 +156,8 @@ function drawPlayerAndEnvironment() {
     });
     ctx.fillStyle = playercol
     
-    ctx.fillRect(Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
-    //ctx.drawImage(Player.img,Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
+    //ctx.fillRect(Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
+    ctx.drawImage(Player.img,Player.x-Camera.x, Player.y-Camera.y-Player.height, Player.imgWidth, Player.imgHeight);
     
 }
 
