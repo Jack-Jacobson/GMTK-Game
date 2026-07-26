@@ -82,12 +82,13 @@ let HasPlayedBefore = {
     "Maze": false,
     "Memorypuzzle": false,
     "LockCombination": false,
+    "Tetris": false,
 }
 let FirstPlayVoicelines = {
     "Minesweepers": "Assets/Audio/Minesweeper/First time doing minesweeper.m4a",
     "Maze": "Assets/Audio/Maze/Maze puzzle start.m4a",
     "Memorypuzzle": "Assets/Audio/Memory/Memory puzzle start.m4a",
-    "LockCombination": "",
+    "Tetris": "",
 }
 
 function drawGrid() {
@@ -318,7 +319,7 @@ function WinMaze(){
     OverlayIsOpen = false;
     window.focus();
     if(AmountOfTrysMaze == 0){
-        let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
+        let audio = new Audio("Assets/Audio/Maze/Maze puzzle imperfect finish.m4a");
         audio.play();
     } else{
         let audio = new Audio("Assets/Audio/Maze/Maze puzzle imperfect finish.m4a");
@@ -345,13 +346,28 @@ function WinCombination(){
     frame.src = "";
     OverlayIsOpen = false;
     window.focus();
-    if(AmountOfTrysMemory == 0){
+
+    /* if(AmountOfTrysMemory == 0){
         let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
         audio.play();
     } else{
         let audio = new Audio("Assets/Audio/Memory/Memory puzzle imperfect finish.m4a");
         audio.play();
-    }
+    } */
+}
+function WinTetris(){
+    overlay.style.display = "none";
+    frame.src = "";
+    OverlayIsOpen = false;
+    window.focus();
+
+    /* if(AmountOfTrysMemory == 0){
+        let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
+        audio.play();
+    } else{
+        let audio = new Audio("Assets/Audio/Memory/Memory puzzle imperfect finish.m4a");
+        audio.play();
+    } */
 }
 
 function DeactivateAllInputs(){

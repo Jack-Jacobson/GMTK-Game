@@ -198,6 +198,7 @@ function update(time = 0) {
     }
 
     draw();
+    if(player.score == 500) window.parent.WinTetris();
     requestAnimationFrame(update);
 }
 
@@ -245,6 +246,7 @@ document.getElementById('restart-btn').addEventListener('click', () => {
 playerReset();
 updateScore();
 update();
+
 
 /* Check if it is in an iframe window, and if so add the ability to close with Escape Key */
 if(window.frameElement){
