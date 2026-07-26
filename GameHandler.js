@@ -59,7 +59,7 @@ To add new Minigames copy the following, replacing the path and name accordingly
 const InteractableObjects = [
     {x: 270, y: 280, width: 97.5, height: 120, name: "Minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "Assets/sprites/lockers.png"},
     {x: 300, y: 40, width: 80, height: 80, name: "Maze", url: 'minigames/maze/maze.html', img: "Assets/sprites/electricalbox.png"},
-    {x: 60, y: 50, width: 85, height: 51, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "Assets/sprites/pinboard.png"},
+    {x: 60, y: 50, width: 102, height: 61.2, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "Assets/sprites/pinboard.png"},
     {x: 585, y: 270, width: 41.5, height: 53, name: "LockCombination", url: 'minigames/lockcombination/lockcombination.html', img: "Assets/sprites/fileholderbox.png"},
     {x: 18, y: 270, width: 99, height: 120, name: "Tetris", url: 'minigames/tetris/tetris.html', img: "Assets/sprites/commode.png"},
 ];
@@ -92,9 +92,11 @@ VisualObjects.forEach(object => {
     object.img = img;
 });
 
+let EndHAppened = false;
+
 let CountDown = 60*5;
 var MinigameTimer = null;
-var GameTimer = null;
+let GameTimer;
 
 var AmountOfResetsMinesweeper = 0;
 var AmountOfTrysMaze = 0;
@@ -112,7 +114,15 @@ let FirstPlayVoicelines = {
     "Minesweepers": "Assets/Audio/Minesweeper/First time doing minesweeper.m4a",
     "Maze": "Assets/Audio/Maze/Maze puzzle start.m4a",
     "Memorypuzzle": "Assets/Audio/Memory/Memory puzzle start.m4a",
+    "LockCombination": "",
     "Tetris": "",
+}
+let HasCompleted = {
+    "Minesweepers": false,
+    "Maze": false,
+    "Memorypuzzle": false,
+    "LockCombination": false,
+    "Tetris": false,
 }
 
 function drawGrid() {
@@ -194,7 +204,6 @@ function updatePosition() {
     
 
     checkCollisions();
-console.log(Player.x, Player.y);
 }
 
 function updateCamera(){
@@ -252,7 +261,8 @@ function checkInteractions(){
         if(((object.x+object.width/2)-Player.x)**2 + ((object.y+object.height/2)-Player.y)**2 < Player.interactionRange**2){
             //console.log(window.getComputedStyle(document.body).getPropertyValue('--text-dim'));
             ctx.fillStyle =  text;
-            ctx.fillText(`Press E to open the Minigame: ${object.name}`, object.x-Camera.x, object.y-Camera.y);
+            ctx.font="20px sans-serif";
+            ctx.fillText(`Press E`, object.x-Camera.x, object.y-Camera.y);
             if(inputs.interact){
                 console.log("interacted");
                 inputs.interact=false;
@@ -285,6 +295,7 @@ function CloseMinigame(){
 }
 
 function FailMinesweeper(){
+    if (EndHAppened) return;
     let index = Math.floor(Math.random()*2);
     let audio = new Audio();
     if(index==0) audio.src = "Assets/Audio/Minesweeper/Minesweeper fail 1.m4a";
@@ -293,6 +304,7 @@ function FailMinesweeper(){
 }
 
 function FailMaze(){
+    if (EndHAppened) return;
     let index = Math.floor(Math.random()*3);
     let audio = new Audio();
     if(index==0) audio.src = "Assets/Audio/Maze/Maze puzzle fail 1.m4a";
@@ -301,6 +313,7 @@ function FailMaze(){
     audio.play();
 }
 function FailMemory(){
+    if (EndHAppened) return;
     let index = Math.floor(Math.random()*3);
     let audio = new Audio();
     if(index==0) audio.src = "Assets/Audio/Memory/Memory puzzle fail 1.m4a";
@@ -309,6 +322,7 @@ function FailMemory(){
     audio.play();
 }
 function FailCombination(){
+    if (EndHAppened) return;
     let index = Math.floor(Math.random()*3);
     let audio = new Audio();
     if(index==0) audio.src = "Assets/Audio/Memory/Memory puzzle fail 1.m4a";
@@ -322,12 +336,16 @@ function WinMinesweeper(){
     frame.src = "";
     OverlayIsOpen = false;
     window.focus();
-    if(AmountOfResetsMinesweeper == 0){
-        let audio = new Audio("Assets/Audio/Minesweeper/Minesweeper perfect finish no entities.m4a");
-        audio.play();
-    } else{
-        let audio = new Audio("Assets/Audio/Minesweeper/Minesweeper imperfect finish no entities.m4a");
-        audio.play();
+    HasCompleted.Minesweepers=true;
+    if(!EndHAppened){
+
+        if(AmountOfResetsMinesweeper == 0){
+            let audio = new Audio("Assets/Audio/Minesweeper/Minesweeper perfect finish no entities.m4a");
+            audio.play();
+        } else{
+            let audio = new Audio("Assets/Audio/Minesweeper/Minesweeper imperfect finish no entities.m4a");
+            audio.play();
+        }
     }
 }
 
@@ -336,12 +354,16 @@ function WinMaze(){
     frame.src = "";
     OverlayIsOpen = false;
     window.focus();
-    if(AmountOfTrysMaze == 0){
-        let audio = new Audio("Assets/Audio/Maze/Maze puzzle imperfect finish.m4a");
-        audio.play();
-    } else{
-        let audio = new Audio("Assets/Audio/Maze/Maze puzzle imperfect finish.m4a");
-        audio.play();
+    HasCompleted.Maze=true;
+    if(!EndHAppened){
+
+        if(AmountOfTrysMaze == 0){
+            let audio = new Audio("Assets/Audio/Maze/Maze puzzle imperfect finish.m4a");
+            audio.play();
+        } else{
+            let audio = new Audio("Assets/Audio/Maze/Maze puzzle imperfect finish.m4a");
+            audio.play();
+        }
     }
 }
 
@@ -350,20 +372,24 @@ function WinMemory(){
     frame.src = "";
     OverlayIsOpen = false;
     window.focus();
-    if(AmountOfTrysMemory == 0){
-        let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
-        audio.play();
-    } else{
-        let audio = new Audio("Assets/Audio/Memory/Memory puzzle imperfect finish.m4a");
-        audio.play();
+    HasCompleted.Memorypuzzle=true;
+    if(!EndHAppened){
+        if(AmountOfTrysMemory == 0){
+            let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
+            audio.play();
+        } else{
+            let audio = new Audio("Assets/Audio/Memory/Memory puzzle imperfect finish.m4a");
+            audio.play();
+        }
     }
-}
+    }
 
 function WinCombination(){
     overlay.style.display = "none";
     frame.src = "";
     OverlayIsOpen = false;
     window.focus();
+    HasCompleted.LockCombination=true;
 
     /* if(AmountOfTrysMemory == 0){
         let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
@@ -378,6 +404,7 @@ function WinTetris(){
     frame.src = "";
     OverlayIsOpen = false;
     window.focus();
+    HasCompleted.Tetris=true;
 
     /* if(AmountOfTrysMemory == 0){
         let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
@@ -409,6 +436,24 @@ function MusicHandler(){
     }, 98000);
 }
 
+function EndSequence(){
+    clearInterval(GameTimer);
+
+    let audio = new Audio();
+    audio.src="Assets/Ausdio/All puzzles completed.m4a";
+    audio.play();
+    setTimeout(() => {
+        GameTimer = setInterval(function () {
+           
+            CountDown--;
+            timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
+            if(MinigameTimer) MinigameTimer.textContent = `${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
+
+        }, 1000);
+
+    })
+}
+
 
 
 function update() {
@@ -418,6 +463,17 @@ function update() {
     drawPlayerAndEnvironment();
     checkInteractions();
     //UpdateAndDrawTime();
+    if(!EndHAppened){
+        let temp=true;
+        for(let key in HasCompleted){
+            if(!HasCompleted[key]) temp = false;
+        }
+        if(temp){
+            EndHAppened=true;
+            EndSequence();
+        }
+    }
+
 
     requestAnimationFrame(update);
 }
@@ -463,7 +519,6 @@ function startGame(){
             timer.textContent = `Time Left: 0:00`;
             if(MinigameTimer) MinigameTimer.textContent = `0:00`;
             clearInterval(GameTimer);
-            GameTimer = null;
         }
     }, 1000);
 
