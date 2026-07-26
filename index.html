@@ -9,12 +9,48 @@
         #gameCanvas {
             border: 1px solid black;
         }
+        :root {
+            /* VARIABLE FEEL FREE TO ADJUST */
+            --bg: #0a0a0a;
+            --text: #ff3333;
+            --text-dim: #771111;
+            --tv: #ffffff;
+            --wall: #333333;
+            --world-bg: #111111;
+            --player: #aa0000;
+            --goal: #00ffcc;
+        }
         body {
-            background: #fff;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
+            /* GLOBAL SETTINGS FOR PAGE */
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.35) 0px,
+                rgba(0, 0, 0, 0.35) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            z-index: 999;
+            pointer-events: none;
         }
         #MinigameOverlay {
             position: fixed;
@@ -34,7 +70,7 @@
             align-items: center; 
             height: 100%;
             width: 100%; 
-            z-index: 5000;
+            z-index: 10;
         }
         #ui-container {
             width: auto;
@@ -57,14 +93,43 @@
             font-weight: bold;
             animation: pulse 1s infinite;
         }
+        h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+        canvas {
+            transform-origin: center;
+            background-color: var(--world-bg);
+        }
+        .btn {
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--text-dim);
+            font-family: inherit;
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: var(--text-dim);
+            color: var(--bg);
+        }
     </style>
 </head>
 
 <body>
     <div id="StartScreen">
         <div>
-            <h1>Game Name</h1>
-            <button id="StartGameButton">Start Game</button>
+            <h1>Every Second Counts</h1>
+            <button id="StartGameButton" class="btn">Start Game</button>
         </div>
     </div>
 

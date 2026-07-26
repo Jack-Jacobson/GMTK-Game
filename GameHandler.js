@@ -46,10 +46,10 @@ To add new Minigames copy the following, replacing the path and name accordingly
 */ 
 
 const InteractableObjects = [
-    {x: 275, y: 225, width: 25, height: 25, name: "Minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
-    {x: 375, y: 225, width: 25, height: 25, name: "Maze", url: 'minigames/maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
-    {x: 475, y: 225, width: 25, height: 25, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
-    {x: 575, y: 225, width: 25, height: 25, name: "LockCombination", url: 'minigames/lockcombination/lockcombination.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 250, y: 212.5, width: 50, height: 25, name: "Minesweepers", url: 'minigames/minesweeper/minesweeper.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 350, y: 212.5, width: 50, height: 25, name: "Maze", url: 'minigames/maze/maze.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 450, y: 212.5, width: 50, height: 25, name: "Memorypuzzle", url: 'minigames/memorypuzzle/memorypuzzle.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
+    {x: 550, y: 212.5, width: 50, height: 25, name: "LockCombination", url: 'minigames/lockcombination/lockcombination.html', img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"},
 ];
 
 let img = new Image();
@@ -108,24 +108,31 @@ function drawGrid() {
 
     ctx.stroke();
 }
+    
+let wall = window.getComputedStyle(document.body).getPropertyValue('--wall');
+let text = window.getComputedStyle(document.body).getPropertyValue('--text');
+let tv = window.getComputedStyle(document.body).getPropertyValue('--tv');
+let playercol = window.getComputedStyle(document.body).getPropertyValue('--player');
 
 function drawPlayerAndEnvironment() {
     drawGrid();
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = wall
     CollisionObjects.forEach(object => {
-        //ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
-        ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
+        ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
+        //ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
     });
     
     InteractableObjects.forEach(object => {
-        //ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
-        ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
+        ctx.fillStyle = "#111111";
+        ctx.fillRect(object.x - Camera.x, object.y-Camera.y, object.width, object.height);
+        ctx.fillStyle = tv;
+        ctx.fillRect(object.x - Camera.x+2, object.y-Camera.y+2, object.width-4, object.height-4);
+        //ctx.drawImage(object.img,object.x-Camera.x,object.y-Camera.y, object.width, object.height);
     });
-
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = playercol
     
     ctx.fillRect(Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
-    ctx.drawImage(Player.img,Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
+    //ctx.drawImage(Player.img,Player.x-Camera.x, Player.y-Camera.y, Player.width, Player.height);
     
 }
 
@@ -223,6 +230,8 @@ function checkCollisions(){
 function checkInteractions(){
     InteractableObjects.forEach(object => {
         if((object.x-Player.x)**2 + (object.y-Player.y)**2 < Player.interactionRange**2){
+            //console.log(window.getComputedStyle(document.body).getPropertyValue('--text-dim'));
+            ctx.fillStyle =  text;
             ctx.fillText(`Press E to open the Minigame: ${object.name}`, object.x-Camera.x, object.y-Camera.y);
             if(inputs.interact){
                 console.log("interacted");
