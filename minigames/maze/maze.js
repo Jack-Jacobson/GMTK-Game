@@ -119,6 +119,8 @@ Events.on(engine, 'beforeUpdate', () => {
         if (ball.position.x < -50 || ball.position.x > 530 || ball.position.y < -50 || ball.position.y > 530) {
             isLost = true;
             document.getElementById('game-over').style.display = 'flex';
+            window.parent.AmountOfTrysMaze++;
+            window.parent.FailMaze();
         }
     }
 });
@@ -147,6 +149,7 @@ Events.on(engine, 'collisionStart', (event) => {
                 Body.setStatic(ball, true);
                 World.remove(engine.world, ball);
                 goal.render.fillStyle = '#111'; 
+                window.parent.WinMaze();
             }
         }
     }

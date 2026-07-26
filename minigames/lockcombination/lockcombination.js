@@ -94,6 +94,7 @@ function startTimer() {
             messageDisplay.innerText = "SYS_ERR: TIME EXPIRED";
             messageDisplay.style.color = "var(--text)";
             disableButtons();
+            window.parent.AmountOfTrysCombination++;
         }
     }, 1000);
 }
@@ -159,6 +160,7 @@ document.getElementById("enter").addEventListener("click", () => {
             messageDisplay.innerText = "ALL LOCKS DISARMED";
             messageDisplay.style.color = "var(--goal)";
             disableButtons();
+            window.parent.WinCombination();
         } else {
             messageDisplay.innerText = "LOCK OPENED! NEXT SYSTEM...";
             messageDisplay.style.color = "var(--goal)";
@@ -172,6 +174,9 @@ document.getElementById("enter").addEventListener("click", () => {
     } else {
         messageDisplay.innerText = "ERR: INVALID CODE";
         messageDisplay.style.color = "var(--text)";
+
+        window.parent.FailCombination();
+        window.parent.AmountOfTrysCombination++;
         
         setTimeout(() => {
             playerCode = "";
@@ -186,6 +191,8 @@ document.getElementById("enter").addEventListener("click", () => {
 
 // RESTART/REBOOT BUTTON
 document.getElementById("restart").addEventListener("click", () => {
+    window.parent.AmountOfTrysCombination++;
+    window.parent.FailCombination();
     loadPuzzle();
 });
 
