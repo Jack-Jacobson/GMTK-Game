@@ -88,15 +88,25 @@
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
+        .title {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid var(--text-dim);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 5.0rem;
+            letter-spacing: 2px;
+        }
         #timer {
             font-size: 1.5rem;
             font-weight: bold;
             animation: pulse 1s infinite;
-        }
-        h1 {
-            margin: 0;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
         }
         @keyframes pulse {
             0% { opacity: 1; }
@@ -127,7 +137,7 @@
 
 <body>
     <div id="StartScreen">
-        <div>
+        <div class="title">
             <h1>Every Second Counts</h1>
             <button id="StartGameButton" class="btn">Start Game</button>
         </div>
@@ -142,7 +152,7 @@
             <div id="timer">PLACEHOLDER_TIMER</div>
         </div>
         <canvas id="gameCanvas" width="600" height="600" ></canvas>
-        <script src="GameHandler.js"></script>
+        <script src="GameHandler.js?v=1"></script>
     </div>
 </body>
 </html>
