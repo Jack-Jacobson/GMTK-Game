@@ -575,7 +575,48 @@ window.onkeydown = (key) => {
         inputs.sprint = true;
     }
 }
+function RestartGame() {
 
+    // Stop timers
+    clearInterval(GameTimer);
+
+    // Hide lose screen
+    document.getElementById("LoseScreen").style.display = "none";
+
+    // Show game
+    document.getElementById("ui-container").style.display = "flex";
+
+    // Close any minigame
+    overlay.style.display = "none";
+    frame.src = "";
+
+    // Reset player
+    Player.x = 200;
+    Player.y = 200;
+
+    // Reset timer
+    CountDown = 60 * 5;
+
+    // Reset game state
+    EndHAppened = false;
+
+    // Reset puzzle completion
+    for (let key in HasCompleted)
+        HasCompleted[key] = false;
+
+    // Reset first-play flags
+    for (let key in HasPlayedBefore)
+        HasPlayedBefore[key] = false;
+
+    // Reset attempt counters
+    AmountOfResetsMinesweeper = 0;
+    AmountOfTrysMaze = 0;
+    AmountOfTrysMemory = 0;
+    AmountOfTrysCombination = 0;
+
+    // Start again
+    startGame();
+}
 
 window.onkeyup = (key) => {
     //console.log("RELEASED", key);
