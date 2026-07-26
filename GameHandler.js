@@ -94,7 +94,7 @@ VisualObjects.forEach(object => {
 
 let EndHAppened = false;
 
-let CountDown = 60*0.1;
+let CountDown = 60*5;
 var MinigameTimer = null;
 let mainAudio = new Audio();
 let loopAudio = new Audio();
