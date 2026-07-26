@@ -111,6 +111,7 @@ function playerReset() {
     
     // Check Game Over
     if (collide(arena, player)) {
+        window.parent.FailTetris();
         isGameOver = true;
         document.getElementById('game-over').style.display = 'flex';
     }

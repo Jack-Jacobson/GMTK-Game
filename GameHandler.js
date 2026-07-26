@@ -94,7 +94,7 @@ VisualObjects.forEach(object => {
 
 let EndHAppened = false;
 
-let CountDown = 60*0.2;
+let CountDown = 60*5;
 var MinigameTimer = null;
 let mainAudio = new Audio();
 let loopAudio = new Audio();
@@ -116,8 +116,8 @@ let FirstPlayVoicelines = {
     "Minesweepers": "Assets/Audio/Minesweeper/First time doing minesweeper.m4a",
     "Maze": "Assets/Audio/Maze/Maze puzzle start.m4a",
     "Memorypuzzle": "Assets/Audio/Memory/Memory puzzle start.m4a",
-    "LockCombination": "",
-    "Tetris": "",
+    "LockCombination": "Assets/Audio/lock/Lock combination puzzle start.m4a",
+    "Tetris": "Assets/Audio/tetris/Tetris puzzle start.m4a",
 }
 let HasCompleted = {
     "Minesweepers": false,
@@ -325,11 +325,14 @@ function FailMemory(){
 }
 function FailCombination(){
     if (EndHAppened) return;
-    let index = Math.floor(Math.random()*3);
     let audio = new Audio();
-    if(index==0) audio.src = "Assets/Audio/Memory/Memory puzzle fail 1.m4a";
-    else if(index==1) audio.src = "Assets/Audio/Memory/Memory puzzle fail 2.m4a";
-    else audio.src = "Assets/Audio/Memory/Memory puzzle fail 3.m4a";
+    audio.src = "Assets/Audio/lock/Lock combination puzzle fail.m4a";
+    audio.play();
+}
+function FailTetris(){
+    if (EndHAppened) return;
+    let audio = new Audio();
+    audio.src = "Assets/Audio/tetris/Tetris puzzle fail.m4a";
     audio.play();
 }
 
@@ -393,13 +396,13 @@ function WinCombination(){
     window.focus();
     HasCompleted.LockCombination=true;
 
-    /* if(AmountOfTrysMemory == 0){
-        let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
+    if(AmountOfTrysMemory == 0){
+        let audio = new Audio("Assets/Audio/lock/Lock combination perfect finish.m4a");
         audio.play();
     } else{
-        let audio = new Audio("Assets/Audio/Memory/Memory puzzle imperfect finish.m4a");
+        let audio = new Audio("Assets/Audio/lock/Lock combination imperfect finish.m4a");
         audio.play();
-    } */
+    }
 }
 function WinTetris(){
     overlay.style.display = "none";
@@ -408,13 +411,13 @@ function WinTetris(){
     window.focus();
     HasCompleted.Tetris=true;
 
-    /* if(AmountOfTrysMemory == 0){
-        let audio = new Audio("Assets/Audio/Memory/Memory puzzle perfect finish.m4a");
+    if(AmountOfTrysMemory == 0){
+        let audio = new Audio("Assets/Audio/tetris/Tetris perfect finish.m4a");
         audio.play();
     } else{
-        let audio = new Audio("Assets/Audio/Memory/Memory puzzle imperfect finish.m4a");
+        let audio = new Audio("Assets/Audio/tetris/Tetris imperfect finish.m4a");
         audio.play();
-    } */
+    }
 }
 
 function DeactivateAllInputs(){
@@ -489,53 +492,58 @@ function update() {
 
 function startGame(){
     timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
-    
     if (GameTimer) {
         clearInterval(GameTimer);
         GameTimer = null;
     }
+    let audio = new Audio();
+    audio.src="Assets/Audio/Game start.m4a";
+    audio.play();
+    drawPlayerAndEnvironment();
+    setTimeout(()=>{
 
-    GameTimer = setInterval(function () {
-        if (CountDown <= 0) {
-            CountDown = 0;
-            timer.textContent = `Time Left: 0:00`;
-            if(MinigameTimer) MinigameTimer.textContent = `0:00`;
-            clearInterval(GameTimer);
-            GameTimer = null;
-            return;
-        }
+            GameTimer = setInterval(function () {
+                if (CountDown <= 0) {
+                    CountDown = 0;
+                    timer.textContent = `Time Left: 0:00`;
+                    if(MinigameTimer) MinigameTimer.textContent = `0:00`;
+                    clearInterval(GameTimer);
+                    GameTimer = null;
+                    return;
+                }
+                
+                if(CountDown == 60*5){
 
-        if(CountDown == 60*5){
+                } else if(CountDown == 60*3){
+                    let MinutesLeft3 = new Audio("Assets/Audio/3 minutes left.m4a");
+                    MinutesLeft3.play();
+                } else if(CountDown == 60){
+                    let MinutesLeft1 = new Audio("Assets/Audio/1 minute left.m4a");
+                    MinutesLeft1.play();
+            }
 
-        } else if(CountDown == 60*3){
-            let MinutesLeft3 = new Audio("Assets/Audio/3 minutes left.m4a");
-            MinutesLeft3.play();
-        } else if(CountDown == 60){
-            let MinutesLeft1 = new Audio("Assets/Audio/1 minute left.m4a");
-            MinutesLeft1.play();
-        }
+            CountDown--;
+            
+            if (CountDown == 0) {
+                loopAudio.pause();
+                document.getElementById("ui-container").style.display="none";
+            }
+            
+            timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
+            if(MinigameTimer) MinigameTimer.textContent = `${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
+            
+            if (CountDown == 0) {
+                loopAudio.pause();
+                mainAudio.pause();
+                overlay.style.display = "none";
+                frame.src = "";
+                document.getElementById("LoseScreen").style.display="flex";
+            }
+        }, 1000);
+        MusicHandler();
+        update();
+    }, 26000);
 
-        CountDown--;
-
-        if (CountDown == 0) {
-            loopAudio.pause();
-            document.getElementById("ui-container").style.display="none";
-        }
-
-        timer.textContent = `Time Left: ${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
-        if(MinigameTimer) MinigameTimer.textContent = `${Math.floor(CountDown/60)}:${(CountDown%60)<10 ? "0" + (CountDown%60) : (CountDown%60)}`;
-
-        if (CountDown == 0) {
-            loopAudio.pause();
-            mainAudio.pause();
-            overlay.style.display = "none";
-            frame.src = "";
-            document.getElementById("LoseScreen").style.display="flex";
-        }
-    }, 1000);
-
-    MusicHandler();
-    update();
 }
 
 
